@@ -26,5 +26,8 @@ const lessonSchema = new Schema({
 });
 
 // Create the Lesson model
-const Lesson = mongoose.model("Lesson", lessonSchema);
-export default Lesson;
+// const Lesson = mongoose.model("Lesson", lessonSchema);
+// export default Lesson;
+export const getLessonModel = (connection) => {
+  return connection.model("Lesson", lessonSchema);
+};

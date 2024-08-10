@@ -1,4 +1,4 @@
-import Lesson from "../models/lessonModel.js";
+import { getLessonModel } from "./../models/lessonModel.js"; // Adjust the import path as needed
 import logger from "../utils/logger.js";
 
 // Create a new lesson
@@ -6,6 +6,7 @@ export const createLesson = async (req, res) => {
   logger.info("Creating a new lesson");
   logger.info(req.body);
   try {
+    const Lesson = getLessonModel(req.dbConnection);
     const lesson = new Lesson(req.body);
     await lesson.save();
     res.status(201).json(lesson);
@@ -18,37 +19,40 @@ export const createLesson = async (req, res) => {
 export const getAllLessons = async (req, res) => {
   logger.info("Getting all lessons");
   try {
+    // Get the Lesson model for this specific connection
+    const Lesson = getLessonModel(req.dbConnection);
+
     const lessons = await Lesson.find();
 
-    // console.log(lessons);
     const modifiedLessons = lessons.map((lesson) => {
       const modifiedHomework = lesson.homework.map((homework) => {
         const deadline = homework.deadline.toISOString().split("T")[0];
-        homework.reminders = homework.reminders[0].split(",");
-        const reminders = [];
-        if (homework.reminders[0] === "true") {
-          reminders.push("2 day");
-        }
-        if (homework.reminders[1] === "true") {
-          reminders.push("1 day");
-        }
-        if (homework.reminders[2] === "true") {
-          reminders.push("3 hours");
-        }
+        let reminders = homework.reminders || [];
+        const reminderLabels = reminders
+          .map((reminder, index) => {
+            if (reminder === "true") {
+              return ["2 day", "1 day", "3 hours"][index];
+            }
+            return null;
+          })
+          .filter(Boolean);
+
         return {
-          ...homework._doc,
-          reminders: reminders.join(", "),
+          ...homework.toObject(),
+          reminders: reminderLabels.join(", "),
           deadline: deadline,
         };
       });
+
       return {
-        ...lesson._doc,
+        ...lesson.toObject(),
         homework: modifiedHomework,
       };
     });
-    // console.log(modifiedLessons[0].homework[0]);
+
     res.status(200).json(modifiedLessons);
   } catch (err) {
+    logger.error("Error processing lessons:", err);
     res.status(500).json({ error: err.message });
   }
 };
