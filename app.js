@@ -19,6 +19,7 @@ app.use((req, res, next) => {
 
   if (req.method === "OPTIONS") {
     // Respond to preflight request
+    console.log("Received a preflight request!");
     res.sendStatus(200);
   } else {
     next();
@@ -26,6 +27,9 @@ app.use((req, res, next) => {
 });
 
 app.use(async (req, res, next) => {
+  console.log(`Request Method: ${req.method}`);
+  console.log(`Request URL: ${req.url}`);
+  console.log(`Request Headers: ${JSON.stringify(req.headers["db-name"])}`);
   const dbName = req.headers["db-name"] || "2024";
   req.dbConnection = await connect(dbName);
   next();

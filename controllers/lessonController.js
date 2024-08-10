@@ -73,6 +73,7 @@ export const getAllLessons = async (req, res) => {
 // Update a lesson by ID
 export const updateLesson = async (req, res) => {
   try {
+    const Lesson = getLessonModel(req.dbConnection);
     const lesson = await Lesson.findByIdAndUpdate(req.params.id, req.body, {
       new: true,
       runValidators: true,
@@ -89,6 +90,7 @@ export const updateLesson = async (req, res) => {
 export const updateHomework = async (req, res) => {
   console.log(req.body);
   try {
+    const Lesson = getLessonModel(req.dbConnection);
     const lesson = await Lesson.findById(req.params.id);
     if (!lesson) {
       return res.status(404).json({ error: "Lesson not found" });
@@ -124,8 +126,16 @@ export const updateHomework = async (req, res) => {
 export const deleteLesson = async (req, res) => {
   logger.info("Deleting a lesson");
   try {
-    await Lesson.findByIdAndDelete(req.params.id);
+    const Lesson = getLessonModel(req.dbConnection);
+    // console.log(req.params.id);
+    // console.log(await Lesson.find());
+    const deletedLesson = await Lesson.findByIdAndDelete(req.params.id);
+    if (!deletedLesson) {
+      return res.status(404).json({ error: "Lesson not found" });
+    }
+    // res.status(200).json({ message: "Lesson deleted successfully" });
     const remainingLessons = await Lesson.find();
+    // console.log(remainingLessons);
     res.status(200).json(remainingLessons);
   } catch (err) {
     res.status(500).json({ error: err.message });
