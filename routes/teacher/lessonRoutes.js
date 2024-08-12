@@ -6,7 +6,7 @@ import {
   updateLesson,
   updateHomework,
   deleteLesson,
-} from "../controllers/lessonController.js";
+} from "../../controllers/teacher/lessonController.js";
 
 const router = express.Router();
 

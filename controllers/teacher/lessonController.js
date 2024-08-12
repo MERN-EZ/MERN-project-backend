@@ -1,5 +1,5 @@
-import { getLessonModel } from "./../models/lessonModel.js"; // Adjust the import path as needed
-import logger from "../utils/logger.js";
+import { getLessonModel } from "../../models/lessonModel.js"; // Adjust the import path as needed
+import logger from "../../utils/logger.js";
 
 // Create a new lesson
 export const createLesson = async (req, res) => {

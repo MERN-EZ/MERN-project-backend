@@ -1,7 +1,7 @@
 import express from "express";
 import { connect } from "./utils/database.connection.js";
 import logger from "./utils/logger.js";
-import lessonRoutes from "./routes/lessonRoutes.js";
+import lessonRoutes from "./routes/teacher/lessonRoutes.js";
 
 const app = express();
 const PORT = process.env.PORT || "8090";
