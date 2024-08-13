@@ -1,7 +1,7 @@
 import express from "express";
 import { connect } from "./utils/database.connection.js";
 import logger from "./utils/logger.js";
-import lessonRoutes from "./routes/teacher/lessonRoutes.js";
+import teacherLessonRoutes from "./routes/teacher/lessonRoutes.js";
 
 const app = express();
 const PORT = process.env.PORT || "8090";
@@ -35,7 +35,7 @@ app.use(async (req, res, next) => {
   next();
 });
 
-app.use("/lessons", lessonRoutes);
+app.use("/teacher/lessons", teacherLessonRoutes);
 
 
 // Error handling middleware for 404 errors
