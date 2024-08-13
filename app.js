@@ -40,6 +40,7 @@ app.use("/teacher/lessons", teacherLessonRoutes);
 app.use("/student/homeworks", studentHomeworkRoutes);
 
 
+
 // Error handling middleware for 404 errors
 app.use((req, res, next) => {
   res.status(404).send("Page Not Found");
