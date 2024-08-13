@@ -2,9 +2,10 @@ import { getLessonModel } from "../../models/lessonModel.js";
 import logger from "../../utils/logger.js";
 
 export const getHomeWorks = async (req, res) => {
-    logger.info("Getting all hoe works");
+    logger.info("Getting all home works");
     try {
         // Fetch the last 3 lessons
+        const Lesson = getLessonModel(req.dbConnection);
         const lessons = await Lesson.find().sort({ id: -1 }).limit(3);
         
         // Extract homework from these lessons
