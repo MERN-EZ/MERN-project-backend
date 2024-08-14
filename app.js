@@ -2,6 +2,7 @@ import express from 'express';
 import { connect } from './utils/database.connection.js';
 import logger from './utils/logger.js';
 import teacherLessonRoutes from './routes/teacher/lessonRoutes.js';
+import teacherHomeworkRoutes from './routes/teacher/homeworkRoutes.js';
 import studentHomeworkRoutes from './routes/student/homeworkRoutes.js';
 
 const app = express();
@@ -37,6 +38,7 @@ app.use(async (req, res, next) => {
 });
 
 app.use('/teacher/lessons', teacherLessonRoutes);
+app.use('/teacher/homework', teacherHomeworkRoutes);
 app.use('/student/homeworks', studentHomeworkRoutes);
 
 // Error handling middleware for 404 errors
