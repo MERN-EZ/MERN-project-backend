@@ -3,6 +3,7 @@ import { connect } from "./utils/database.connection.js";
 import logger from "./utils/logger.js";
 import teacherLessonRoutes from "./routes/teacher/lessonRoutes.js";
 import studentHomeworkRoutes from "./routes/student/homeworkRoutes.js";
+import guestRegistrationRoutes from "./routes/guest/registerRoute.js";
 
 const app = express();
 const PORT = process.env.PORT || "8090";
@@ -38,8 +39,9 @@ app.use(async (req, res, next) => {
 
 app.use("/teacher/lessons", teacherLessonRoutes);
 app.use("/student/homeworks", studentHomeworkRoutes);
+app.use("/guest/register", guestRegistrationRoutes);
 
-
+//3)add route
 
 // Error handling middleware for 404 errors
 app.use((req, res, next) => {
@@ -51,7 +53,7 @@ app.use((err, req, res, next) => {
   console.error(err.stack);
   res.status(500).send("Something went wrong!");
 });
-
+userModel.js
 app.listen(PORT, () => {
   logger.info(`Server is running on port ${PORT}`);
   connect("2024").catch((error) => {

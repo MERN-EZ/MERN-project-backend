@@ -19,8 +19,8 @@ export const registerStudent = async (req, res) => {
 
     // Create a new student record
     const newStudent = new Student({
-      firstName,
-      lastName,
+        firstName,
+        lastName,
       yearOfOLs,
       classLocation,
       contactNumber,
