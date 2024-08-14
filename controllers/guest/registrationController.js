@@ -21,12 +21,10 @@ export const registerStudent = async (req, res) => {
     const newStudent = new Student({
         firstName,
         lastName,
-      yearOfOLs,
-      classLocation,
-      contactNumber,
-      email,
-      username,
-      password,
+        contactNumber,
+        email,
+        username,
+        password,
     });
 
     // Save the new student to the database

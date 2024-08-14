@@ -53,7 +53,7 @@ app.use((err, req, res, next) => {
   console.error(err.stack);
   res.status(500).send("Something went wrong!");
 });
-userModel.js
+
 app.listen(PORT, () => {
   logger.info(`Server is running on port ${PORT}`);
   connect("2024").catch((error) => {
