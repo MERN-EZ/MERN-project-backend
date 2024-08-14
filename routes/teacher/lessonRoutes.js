@@ -1,4 +1,4 @@
-import express from "express";
+import express from 'express';
 import {
   createLesson,
   getAllLessons,
@@ -6,16 +6,17 @@ import {
   updateLesson,
   updateHomework,
   deleteLesson,
-} from "../../controllers/teacher/lessonController.js";
+} from '../../controllers/teacher/lessonController.js';
 
 const router = express.Router();
 
 // Get all lessons
-router.get("/", getAllLessons);
+router.get('/', getAllLessons);
 // Create a new lesson
-router.post("/", createLesson);
+router.post('/', createLesson);
+router.put('/:id', updateLesson);
 
-router.delete("/:id", deleteLesson);
+router.delete('/:id', deleteLesson);
 
 // Get a lesson by ID
 // router.get("/:id", getLessonById);
@@ -24,7 +25,7 @@ router.delete("/:id", deleteLesson);
 // router.put("/:id", updateLesson);
 
 // Delete a lesson by ID
-router.delete("/:id", deleteLesson);
+router.delete('/:id', deleteLesson);
 
-router.put("/homework/:id", updateHomework);
+router.put('/homework/:id', updateHomework);
 export default router;
