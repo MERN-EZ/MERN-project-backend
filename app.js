@@ -4,6 +4,7 @@ import logger from "./utils/logger.js";
 import teacherLessonRoutes from "./routes/teacher/lessonRoutes.js";
 import studentHomeworkRoutes from "./routes/student/homeworkRoutes.js";
 import guestRegistrationRoutes from "./routes/guest/registerRoute.js";
+import classRoutes from './routes/guest/classRoutes.js';
 
 const app = express();
 const PORT = process.env.PORT || "8090";
@@ -40,6 +41,7 @@ app.use(async (req, res, next) => {
 app.use("/teacher/lessons", teacherLessonRoutes);
 app.use("/student/homeworks", studentHomeworkRoutes);
 app.use("/guest/register", guestRegistrationRoutes);
+app.use('/guest/classes', classRoutes);
 
 //3)add route
 
