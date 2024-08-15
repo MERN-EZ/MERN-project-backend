@@ -3,6 +3,7 @@ import { connect } from "./utils/database.connection.js";
 import logger from "./utils/logger.js";
 import teacherLessonRoutes from "./routes/teacher/lessonRoutes.js";
 import studentHomeworkRoutes from "./routes/student/homeworkRoutes.js";
+import studentUserRoutes from "./routes/student/userRoutes.js";
 
 const app = express();
 const PORT = process.env.PORT || "8090";
@@ -38,7 +39,7 @@ app.use(async (req, res, next) => {
 
 app.use("/teacher/lessons", teacherLessonRoutes);
 app.use("/student/homeworks", studentHomeworkRoutes);
-
+app.use("/student/users", studentUserRoutes);
 
 
 // Error handling middleware for 404 errors
