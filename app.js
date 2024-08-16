@@ -4,24 +4,27 @@ import logger from "./utils/logger.js";
 import teacherLessonRoutes from "./routes/teacher/lessonRoutes.js";
 import studentHomeworkRoutes from "./routes/student/homeworkRoutes.js";
 import studentUserRoutes from "./routes/student/userRoutes.js";
+import express from 'express';
+import teacherHomeworkRoutes from './routes/teacher/homeworkRoutes.js';
+
 
 const app = express();
-const PORT = process.env.PORT || "8090";
+const PORT = process.env.PORT || '8090';
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 app.use((req, res, next) => {
-  res.header("Access-Control-Allow-Origin", "*"); // Allow all origins
+  res.header('Access-Control-Allow-Origin', '*'); // Allow all origins
   res.header(
-    "Access-Control-Allow-Headers",
-    "Origin, X-Requested-With, Content-Type, Accept, db-name"
+    'Access-Control-Allow-Headers',
+    'Origin, X-Requested-With, Content-Type, Accept, db-name'
   );
-  res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
+  res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
 
-  if (req.method === "OPTIONS") {
+  if (req.method === 'OPTIONS') {
     // Respond to preflight request
-    console.log("Received a preflight request!");
+    logger.trace('Received a preflight request!');
     res.sendStatus(200);
   } else {
     next();
@@ -29,10 +32,10 @@ app.use((req, res, next) => {
 });
 
 app.use(async (req, res, next) => {
-  console.log(`Request Method: ${req.method}`);
-  console.log(`Request URL: ${req.url}`);
-  console.log(`Request Headers: ${JSON.stringify(req.headers["db-name"])}`);
-  const dbName = req.headers["db-name"] || "2024";
+  logger.debug(`Request Method: ${req.method}`);
+  logger.debug(`Request URL: ${req.url}`);
+  logger.debug(`Request Headers: ${JSON.stringify(req.headers['db-name'])}`);
+  const dbName = req.headers['db-name'] || '2024';
   req.dbConnection = await connect(dbName);
   next();
 });
@@ -40,22 +43,23 @@ app.use(async (req, res, next) => {
 app.use("/teacher/lessons", teacherLessonRoutes);
 app.use("/student/homeworks", studentHomeworkRoutes);
 app.use("/student/users", studentUserRoutes);
+app.use('/teacher/homework', teacherHomeworkRoutes);
 
 
 // Error handling middleware for 404 errors
 app.use((req, res, next) => {
-  res.status(404).send("Page Not Found");
+  res.status(404).send('Page Not Found');
 });
 
 // General error-handling middleware
 app.use((err, req, res, next) => {
-  console.error(err.stack);
-  res.status(500).send("Something went wrong!");
+  logger.error(err.stack);
+  res.status(500).send('Something went wrong!');
 });
 
 app.listen(PORT, () => {
   logger.info(`Server is running on port ${PORT}`);
-  connect("2024").catch((error) => {
+  connect('2024').catch((error) => {
     logger.error(`Failed to connect to the default database: ${error.message}`);
   });
 });
