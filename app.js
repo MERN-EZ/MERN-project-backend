@@ -40,8 +40,10 @@ app.use(async (req, res, next) => {
   next();
 });
 
-app.use('/teacher/lessons', teacherLessonRoutes);
-app.use('/student/homeworks', studentHomeworkRoutes);
+app.use("/teacher/lessons", teacherLessonRoutes);
+app.use("/student/homeworks", studentHomeworkRoutes);
+// app.use("/student/users", studentUserRoutes);
+// app.use('/teacher/homework', teacherHomeworkRoutes);
 app.use('/guest/register', guestRegistrationRoutes);
 app.use('/guest/classes', classRoutes);
 
