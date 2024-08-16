@@ -1,11 +1,10 @@
-import express from "express";
-import { connect } from "./utils/database.connection.js";
-import logger from "./utils/logger.js";
-import teacherLessonRoutes from "./routes/teacher/lessonRoutes.js";
-import studentHomeworkRoutes from "./routes/student/homeworkRoutes.js";
-import studentUserRoutes from "./routes/student/userRoutes.js";
-import teacherHomeworkRoutes from './routes/teacher/homeworkRoutes.js';
-
+import express from 'express';
+import { connect } from './utils/database.connection.js';
+import logger from './utils/logger.js';
+import teacherLessonRoutes from './routes/teacher/lessonRoutes.js';
+import studentHomeworkRoutes from './routes/student/homeworkRoutes.js';
+import guestRegistrationRoutes from './routes/guest/registerRoutes.js';
+import classRoutes from './routes/guest/classRoutes.js';
 
 const app = express();
 const PORT = process.env.PORT || '8090';
@@ -22,8 +21,7 @@ app.use((req, res, next) => {
   res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
 
   if (req.method === 'OPTIONS') {
-    // Respond to preflight request
-    logger.trace('Received a preflight request!');
+    logger.info('Received a preflight request!');
     res.sendStatus(200);
   } else {
     next();
@@ -31,10 +29,13 @@ app.use((req, res, next) => {
 });
 
 app.use(async (req, res, next) => {
-  logger.debug(`Request Method: ${req.method}`);
-  logger.debug(`Request URL: ${req.url}`);
-  logger.debug(`Request Headers: ${JSON.stringify(req.headers['db-name'])}`);
+  logger.info(`---------------------------------`);
+  logger.info(`Request Method: ${req.method}`);
+  logger.info(`Request URL: ${req.url}`);
   const dbName = req.headers['db-name'] || '2024';
+  if (dbName) {
+    logger.info(`Request Headers: ${dbName}\n`);
+  }
   req.dbConnection = await connect(dbName);
   next();
 });
@@ -43,7 +44,8 @@ app.use("/teacher/lessons", teacherLessonRoutes);
 app.use("/student/homeworks", studentHomeworkRoutes);
 app.use("/student/users", studentUserRoutes);
 app.use('/teacher/homework', teacherHomeworkRoutes);
-
+app.use('/guest/register', guestRegistrationRoutes);
+app.use('/guest/classes', classRoutes);
 
 // Error handling middleware for 404 errors
 app.use((req, res, next) => {
@@ -52,8 +54,8 @@ app.use((req, res, next) => {
 
 // General error-handling middleware
 app.use((err, req, res, next) => {
-  logger.error(err.stack);
-  res.status(500).send('Something went wrong!');
+  logger.infoor(err.stack);
+  res.status(500).json({ error: 'Something went wrong!' });
 });
 
 app.listen(PORT, () => {
