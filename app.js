@@ -2,6 +2,7 @@ import express from 'express';
 import { connect } from './utils/database.connection.js';
 import logger from './utils/logger.js';
 import teacherLessonRoutes from './routes/teacher/lessonRoutes.js';
+import teacherHomeworkRoutes from './routes/teacher/homeworkRoutes.js';
 import studentHomeworkRoutes from './routes/student/homeworkRoutes.js';
 import guestRegistrationRoutes from './routes/guest/registerRoutes.js';
 import classRoutes from './routes/guest/classRoutes.js';
@@ -40,6 +41,7 @@ app.use(async (req, res, next) => {
 });
 
 app.use('/teacher/lessons', teacherLessonRoutes);
+app.use('/teacher/homework', teacherHomeworkRoutes);
 app.use('/student/homeworks', studentHomeworkRoutes);
 app.use('/guest/register', guestRegistrationRoutes);
 app.use('/guest/classes', classRoutes);
