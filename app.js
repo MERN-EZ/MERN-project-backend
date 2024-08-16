@@ -3,7 +3,7 @@ import { connect } from "./utils/database.connection.js";
 import logger from "./utils/logger.js";
 import teacherLessonRoutes from "./routes/teacher/lessonRoutes.js";
 import studentHomeworkRoutes from "./routes/student/homeworkRoutes.js";
-import guestRegistrationRoutes from "./routes/guest/registerRoute.js";
+import guestRegistrationRoutes from "./routes/guest/registerRoutes.js";
 import classRoutes from './routes/guest/classRoutes.js';
 
 const app = express();
@@ -21,7 +21,6 @@ app.use((req, res, next) => {
   res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
 
   if (req.method === "OPTIONS") {
-    // Respond to preflight request
     console.log("Received a preflight request!");
     res.sendStatus(200);
   } else {
@@ -32,8 +31,10 @@ app.use((req, res, next) => {
 app.use(async (req, res, next) => {
   console.log(`Request Method: ${req.method}`);
   console.log(`Request URL: ${req.url}`);
-  console.log(`Request Headers: ${JSON.stringify(req.headers["db-name"])}`);
   const dbName = req.headers["db-name"] || "2024";
+  if (dbName) {
+    console.log(`Request Headers: ${dbName}`);
+  }
   req.dbConnection = await connect(dbName);
   next();
 });
@@ -43,8 +44,6 @@ app.use("/student/homeworks", studentHomeworkRoutes);
 app.use("/guest/register", guestRegistrationRoutes);
 app.use('/guest/classes', classRoutes);
 
-//3)add route
-
 // Error handling middleware for 404 errors
 app.use((req, res, next) => {
   res.status(404).send("Page Not Found");
@@ -53,7 +52,7 @@ app.use((req, res, next) => {
 // General error-handling middleware
 app.use((err, req, res, next) => {
   console.error(err.stack);
-  res.status(500).send("Something went wrong!");
+  res.status(500).json({ error: "Something went wrong!" });
 });
 
 app.listen(PORT, () => {

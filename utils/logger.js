@@ -1,12 +1,12 @@
-import pino from "pino";
+import pino from 'pino';
 
 const logger = pino({
   transport: {
-    target: "pino-pretty",
+    target: 'pino-pretty',
     options: {
       colorize: true,
-      translateTime: `SYS:dd-mm-yyyy HH:MM:ss`,
-      ignore: "pid,hostname",
+      translateTime: `SYS:hh:MM`,
+      ignore: 'pid,hostname',
     },
   },
 });
