@@ -4,7 +4,6 @@ import logger from "./utils/logger.js";
 import teacherLessonRoutes from "./routes/teacher/lessonRoutes.js";
 import studentHomeworkRoutes from "./routes/student/homeworkRoutes.js";
 import studentUserRoutes from "./routes/student/userRoutes.js";
-import express from 'express';
 import teacherHomeworkRoutes from './routes/teacher/homeworkRoutes.js';
 
 
