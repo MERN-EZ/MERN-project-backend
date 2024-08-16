@@ -30,9 +30,10 @@ app.use((req, res, next) => {
 });
 
 app.use(async (req, res, next) => {
+  logger.info('---------------------------'); // Print a newline
   logger.info(`Request Method: ${req.method}`);
   logger.info(`Request URL: ${req.url}`);
-  logger.info(`Request Headers: ${JSON.stringify(req.headers['db-name'])}`);
+  logger.info(`Request Headers: ${JSON.stringify(req.headers['db-name'])}\n`);
   const dbName = req.headers['db-name'] || '2024';
   req.dbConnection = await connect(dbName);
   next();

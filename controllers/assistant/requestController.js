@@ -1,4 +1,4 @@
-import { getAttendanceModel } from '../../models/attendanceModel.js';
+// import { getAttendanceModel } from '../../models/attendanceModel.js';
 
 export const getAllnames = async (req, res) => {
   logger.info('Getting all names');
