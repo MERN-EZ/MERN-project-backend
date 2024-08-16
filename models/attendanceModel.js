@@ -1,8 +1,10 @@
+import mongoose from 'mongoose';
+
 const userSchema = new mongoose.Schema({
   firstName: { type: String, required: true },
   lastName: { type: String, required: true },
   attendance: {
-    date: Map,
+    type: Map,
     of: String,
     required: true,
   },
