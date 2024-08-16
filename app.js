@@ -41,13 +41,18 @@ app.use(async (req, res, next) => {
   next();
 });
 
+// Routes
 app.use('/student/homeworks', studentHomeworkRoutes);
 // app.use("/student/users", studentUserRoutes);
+
 app.use('/teacher/lessons', teacherLessonRoutes);
 app.use('/teacher/homework', teacherHomeworkRoutes);
 app.use('/teacher/class', teacherClassRoutes);
+
 app.use('/guest/register', guestRegistrationRoutes);
 app.use('/guest/classes', classRoutes);
+
+app.use('/assistant/users', assistantUserRoutes);
 
 // Error handling middleware for 404 errors
 app.use((req, res, next) => {
