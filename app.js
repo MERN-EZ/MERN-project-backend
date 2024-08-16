@@ -3,6 +3,7 @@ import { connect } from './utils/database.connection.js';
 import logger from './utils/logger.js';
 import teacherLessonRoutes from './routes/teacher/lessonRoutes.js';
 import teacherHomeworkRoutes from './routes/teacher/homeworkRoutes.js';
+import teacherClassRoutes from './routes/teacher/classRoutes.js';
 import studentHomeworkRoutes from './routes/student/homeworkRoutes.js';
 import guestRegistrationRoutes from './routes/guest/registerRoutes.js';
 import classRoutes from './routes/guest/classRoutes.js';
@@ -41,10 +42,11 @@ app.use(async (req, res, next) => {
   next();
 });
 
-app.use('/teacher/lessons', teacherLessonRoutes);
 app.use('/student/homeworks', studentHomeworkRoutes);
 // app.use("/student/users", studentUserRoutes);
+app.use('/teacher/lessons', teacherLessonRoutes);
 app.use('/teacher/homework', teacherHomeworkRoutes);
+app.use('/teacher/class', teacherClassRoutes);
 app.use('/guest/register', guestRegistrationRoutes);
 app.use('/guest/classes', classRoutes);
 
