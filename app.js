@@ -4,6 +4,7 @@ import logger from './utils/logger.js';
 import teacherLessonRoutes from './routes/teacher/lessonRoutes.js';
 import teacherHomeworkRoutes from './routes/teacher/homeworkRoutes.js';
 import studentHomeworkRoutes from './routes/student/homeworkRoutes.js';
+import assistantUserRoutes from './routes/assistant/userRoutes.js';
 
 const app = express();
 const PORT = process.env.PORT || '8090';
@@ -29,9 +30,9 @@ app.use((req, res, next) => {
 });
 
 app.use(async (req, res, next) => {
-  logger.debug(`Request Method: ${req.method}`);
-  logger.debug(`Request URL: ${req.url}`);
-  logger.debug(`Request Headers: ${JSON.stringify(req.headers['db-name'])}`);
+  logger.info(`Request Method: ${req.method}`);
+  logger.info(`Request URL: ${req.url}`);
+  logger.info(`Request Headers: ${JSON.stringify(req.headers['db-name'])}`);
   const dbName = req.headers['db-name'] || '2024';
   req.dbConnection = await connect(dbName);
   next();
@@ -40,6 +41,7 @@ app.use(async (req, res, next) => {
 app.use('/teacher/lessons', teacherLessonRoutes);
 app.use('/teacher/homework', teacherHomeworkRoutes);
 app.use('/student/homeworks', studentHomeworkRoutes);
+app.use('/assistant/users', assistantUserRoutes);
 
 // Error handling middleware for 404 errors
 app.use((req, res, next) => {
