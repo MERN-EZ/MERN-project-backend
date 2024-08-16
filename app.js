@@ -6,6 +6,7 @@ import teacherHomeworkRoutes from './routes/teacher/homeworkRoutes.js';
 import studentHomeworkRoutes from './routes/student/homeworkRoutes.js';
 import guestRegistrationRoutes from './routes/guest/registerRoutes.js';
 import classRoutes from './routes/guest/classRoutes.js';
+import assistantUserRoutes from './routes/assistant/userRoutes.js';
 
 const app = express();
 const PORT = process.env.PORT || '8090';
@@ -22,7 +23,7 @@ app.use((req, res, next) => {
   res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
 
   if (req.method === 'OPTIONS') {
-    logger.info('Received a preflight request!');
+    console.log('Received a preflight request!');
     res.sendStatus(200);
   } else {
     next();
@@ -30,23 +31,21 @@ app.use((req, res, next) => {
 });
 
 app.use(async (req, res, next) => {
-  logger.info(`---------------------------------`);
+  logger.info('---------------------------'); // Print a newline
   logger.info(`Request Method: ${req.method}`);
   logger.info(`Request URL: ${req.url}`);
+  logger.info(`Request Headers: ${JSON.stringify(req.headers['db-name'])}\n`);
   const dbName = req.headers['db-name'] || '2024';
-  if (dbName) {
-    logger.info(`Request Headers: ${dbName}\n`);
-  }
   req.dbConnection = await connect(dbName);
   next();
 });
 
 app.use('/teacher/lessons', teacherLessonRoutes);
-app.use('/student/homeworks', studentHomeworkRoutes);
-// app.use("/student/users", studentUserRoutes);
 app.use('/teacher/homework', teacherHomeworkRoutes);
+app.use('/student/homeworks', studentHomeworkRoutes);
 app.use('/guest/register', guestRegistrationRoutes);
 app.use('/guest/classes', classRoutes);
+app.use('/assistant/users', assistantUserRoutes);
 
 // Error handling middleware for 404 errors
 app.use((req, res, next) => {
@@ -55,7 +54,7 @@ app.use((req, res, next) => {
 
 // General error-handling middleware
 app.use((err, req, res, next) => {
-  logger.infoor(err.stack);
+  console.error(err.stack);
   res.status(500).json({ error: 'Something went wrong!' });
 });
 
