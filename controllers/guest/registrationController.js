@@ -3,7 +3,7 @@ import { getAttendanceModel } from '../../models/attendanceModel.js';
 import logger from '../../utils/logger.js';
 
 export const registerStudent = async (req, res) => {
-  const { firstName, lastName, contactNumber, email, username, password } =
+  const { firstName, lastName, contactNumber, email, username, password,transactionId, } =
     req.body;
 
   try {
@@ -18,6 +18,8 @@ export const registerStudent = async (req, res) => {
       email,
       username,
       password,
+      transactionId,
+      status: 'Pending',
     });
 
     // Save the new student to the database

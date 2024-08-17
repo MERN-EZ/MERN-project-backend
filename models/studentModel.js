@@ -7,6 +7,8 @@ const studentSchema = new mongoose.Schema({
   email: { type: String, required: true, unique: true },
   username: { type: String, required: true, unique: true },
   password: { type: String, required: true },
+  transactionId:{type: String, required: true},
+  status: {type: String, enum: ['Pending', 'Approved', 'Rejected'], default: 'Pending'}
 });
 
 const getStudentModel = (dbConnection) => dbConnection.model('Student', studentSchema);
