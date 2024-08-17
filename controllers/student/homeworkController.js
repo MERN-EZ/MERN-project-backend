@@ -46,22 +46,21 @@ export const getHomeworkById = async (req, res) => {
 
         // Use aggregation to find the homework and its lesson in one query
         const result = await Lesson.aggregate([
-            { $unwind: "$homework" },
-            { $match: { "homework._id": new mongoose.Types.ObjectId(homeworkId) } },
             {
                 $project: {
                     _id: 1,
                     title: 1,
                     homework: {
-                        _id: 1,
-                        title: 1,
-                        description: 1,
-                        deadline: 1,
-                        reminders: 1
+                        $cond: {
+                            if: { $isArray: "$homework" },
+                            then: "$homework",
+                            else: []
+                        }
                     }
                 }
             }
         ]);
+        
 
         if (result.length === 0) {
             return res.status(404).send('Homework not found');
@@ -89,5 +88,44 @@ export const getHomeworkById = async (req, res) => {
         console.error('Error fetching homework by ID:', error);
         res.status(500).send('Internal Server Error');
     }
+}
+
+export const addSubmission = async (req, res) => {
+    logger.info(req.body);
+    try {
+        const Lesson = getLessonModel(req.dbConnection); // Get the Lesson model
+        const lesson = await Lesson.findById(req.params.lessonId); // Find the lesson by ID
+        
+        if (!lesson) {
+            return res.status(404).json({ error: 'Lesson not found' });
+        }
+
+        // Find the specific homework item
+        const homework = lesson.homework.id(req.params.homeworkId);
+        
+        if (!homework) {
+            return res.status(404).json({ error: 'Homework not found' });
+        }
+
+        const { studentId, submissionText } = req.body;
+
+        if (!studentId || !submissionText) {
+            return res.status(400).json({ error: 'Missing required fields' });
+        }
+
+        // Create a new submission object
+        const newSubmission = {
+            studentId,
+            submissionText,
+            submissionDate: new Date(),
+        };
+
+        // Add the new submission to the homework
+        homework.submissions.push(newSubmission);
+
+        await lesson.save(); // Save the updated lesson
+        res.status(200).json(homework);
+    } catch (err) {
+        res.status(400).json({ error: err.message });
+    }
 };
-  
