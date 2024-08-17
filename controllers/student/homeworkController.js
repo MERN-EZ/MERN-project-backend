@@ -95,13 +95,28 @@ export const addSubmission = async (req, res) => {
     try {
         const Lesson = getLessonModel(req.dbConnection); // Get the Lesson model
         const lesson = await Lesson.findById(req.params.lessonId); // Find the lesson by ID
+        logger.info(lesson);
+
         
         if (!lesson) {
             return res.status(404).json({ error: 'Lesson not found' });
         }
 
         // Find the specific homework item
-        const homework = lesson.homework.id(req.params.homeworkId);
+        // const homework = lesson.homework.id(req.params.homeworkId);
+        const homeworkId = req.params.homeworkId;
+        logger.info(homeworkId);
+        const homeworkItem = lesson.homework.find(item => {
+            logger.info("Homeworkitem" , item);
+            item.id === homeworkId;
+        });
+        logger.info("Homeworkitem" , homeworkItem);
+
+        if (!homeworkItem) {
+            return res.status(404).json({ error: 'Homework not found' });
+        }
+
+        // Rest of the code...
         
         if (!homework) {
             return res.status(404).json({ error: 'Homework not found' });

@@ -10,6 +10,6 @@ router.get("/", getHomeWorks);
 router.get("/:id", getHomeWorks);
 
 // Add a submission to a specific homework
-router.put("/homework-submissions/:homeworkId", addSubmission);
+router.post("/homework-submissions/:lessonId/:homeworkId", addSubmission);
 
 export default router;
