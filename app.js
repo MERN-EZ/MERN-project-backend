@@ -8,6 +8,7 @@ import studentHomeworkRoutes from './routes/student/homeworkRoutes.js';
 import guestRegistrationRoutes from './routes/guest/registerRoutes.js';
 import classRoutes from './routes/guest/classRoutes.js';
 import assistantUserRoutes from './routes/assistant/userRoutes.js';
+import studentRoutes from'./routes/student/studentRoutes.js';
 
 const app = express();
 const PORT = process.env.PORT || '8090';
@@ -43,7 +44,7 @@ app.use(async (req, res, next) => {
 
 // Routes
 app.use('/student/homeworks', studentHomeworkRoutes);
-// app.use("/student/users", studentUserRoutes);
+app.use("/student/users", studentRoutes);
 
 app.use('/teacher/lessons', teacherLessonRoutes);
 app.use('/teacher/homework', teacherHomeworkRoutes);
