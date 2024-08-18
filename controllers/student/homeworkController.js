@@ -91,6 +91,7 @@ export const getHomeworkById = async (req, res) => {
 }
 
 export const addSubmission = async (req, res) => {
+    logger.info("Adding submission to homework");
     try {
       const Lesson = getLessonModel(req.dbConnection);
       const lesson = await Lesson.findById(req.params.lessonId);
@@ -101,7 +102,7 @@ export const addSubmission = async (req, res) => {
   
       const homeworkId = req.params.homeworkId;
       const homework = lesson.homework.find(
-        (hw) => hw.id.toString() === homeworkId
+        (hw) => hw._id.toString() === homeworkId
       );
   
       if (!homework) {
