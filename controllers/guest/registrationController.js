@@ -10,6 +10,14 @@ export const registerStudent = async (req, res) => {
     // Get the Student model for the current database connection
     const Student = getStudentModel(req.dbConnection);
 
+    const lastStudent = await Student.findOne().sort({ _id: -1 });
+
+    // Generate the new studentId
+    const year = new Date().getFullYear();
+    const newStudentId = lastStudent ? 
+      `${year}/${(parseInt(lastStudent.studentId.split('/')[1]) + 1).toString().padStart(4, '0')}` :
+      `${year}/0001`;
+
     // Create a new student record
     const newStudent = new Student({
       firstName,
@@ -19,6 +27,7 @@ export const registerStudent = async (req, res) => {
       username,
       password,
       transactionId,
+      studentId: newStudentId,
       status: 'Pending',
     });
 
