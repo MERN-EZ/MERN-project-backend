@@ -91,56 +91,36 @@ export const getHomeworkById = async (req, res) => {
 }
 
 export const addSubmission = async (req, res) => {
-    logger.info(req.body);
     try {
-        const Lesson = getLessonModel(req.dbConnection); // Get the Lesson model
-        const lesson = await Lesson.findById(req.params.lessonId); // Find the lesson by ID
-        logger.info(lesson);
-
-        
-        if (!lesson) {
-            return res.status(404).json({ error: 'Lesson not found' });
-        }
-
-        // Find the specific homework item
-        // const homework = lesson.homework.id(req.params.homeworkId);
-        const homeworkId = req.params.homeworkId;
-        logger.info(homeworkId);
-        const homeworkItem = lesson.homework.find(item => {
-            logger.info("Homeworkitem" , item);
-            item.id === homeworkId;
-        });
-        logger.info("Homeworkitem" , homeworkItem);
-
-        if (!homeworkItem) {
-            return res.status(404).json({ error: 'Homework not found' });
-        }
-
-        // Rest of the code...
-        
-        if (!homework) {
-            return res.status(404).json({ error: 'Homework not found' });
-        }
-
-        const { studentId, submissionText } = req.body;
-
-        if (!studentId || !submissionText) {
-            return res.status(400).json({ error: 'Missing required fields' });
-        }
-
-        // Create a new submission object
-        const newSubmission = {
-            studentId,
-            submissionText,
-            submissionDate: new Date(),
-        };
-
-        // Add the new submission to the homework
-        homework.submissions.push(newSubmission);
-
-        await lesson.save(); // Save the updated lesson
-        res.status(200).json(homework);
+      const Lesson = getLessonModel(req.dbConnection);
+      const lesson = await Lesson.findById(req.params.lessonId);
+  
+      if (!lesson) {
+        return res.status(404).json({ error: 'Lesson not found' });
+      }
+  
+      const homeworkId = req.params.homeworkId;
+      const homework = lesson.homework.find(
+        (hw) => hw.id.toString() === homeworkId
+      );
+  
+      if (!homework) {
+        return res.status(404).json({ error: 'Homework not found' });
+      }
+  
+      // Initialize submissions array if it doesn't exist
+      if (!homework.submissions) {
+        homework.submissions = [];
+      }
+  
+      // Add the new submission to the homework's submissions array
+      homework.submissions.push(req.body);
+  
+      // Save the updated lesson
+      await lesson.save();
+  
+      res.status(200).json({ message: 'Submission added successfully', lesson });
     } catch (err) {
-        res.status(400).json({ error: err.message });
+      res.status(400).json({ error: err.message });
     }
-};
+  };
