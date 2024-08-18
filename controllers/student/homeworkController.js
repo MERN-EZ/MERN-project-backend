@@ -91,7 +91,6 @@ export const getHomeworkById = async (req, res) => {
 }
 
 export const addSubmission = async (req, res) => {
-    logger.info("Adding submission to homework");
     try {
       const Lesson = getLessonModel(req.dbConnection);
       const lesson = await Lesson.findById(req.params.lessonId);
@@ -125,3 +124,4 @@ export const addSubmission = async (req, res) => {
       res.status(400).json({ error: err.message });
     }
   };
+
