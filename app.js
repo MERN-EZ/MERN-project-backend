@@ -9,6 +9,7 @@ import guestRegistrationRoutes from './routes/guest/registerRoutes.js';
 import classRoutes from './routes/guest/classRoutes.js';
 import assistantUserRoutes from './routes/assistant/userRoutes.js';
 import studentRoutes from'./routes/student/studentRoutes.js';
+import authRoutes from './routes/guest/authRoutes.js';
 
 const app = express();
 const PORT = process.env.PORT || '8090';
@@ -52,6 +53,7 @@ app.use('/teacher/class', teacherClassRoutes);
 
 app.use('/guest/register', guestRegistrationRoutes);
 app.use('/guest/classes', classRoutes);
+app.use('/guest/auth', authRoutes);
 
 app.use('/assistant/users', assistantUserRoutes);
 

@@ -1,19 +1,22 @@
-import { getStudentModel } from "../../models/studentModel.js"; // Import the student model
+import { getStudentModel } from "../../models/studentModel.js"; 
 import logger from "../../utils/logger.js";
 
 export const getStudentById = async (req, res) => {
-    logger.info(`Getting student with ID: ${req.params.id}`);
+    const { id } = req.params; 
+    logger.info(`Getting student with studentId: ${id}`);
+    
     try {
-        const StudentModel = getStudentModel(req.dbConnection); // Use the student model
-        const student = await StudentModel.findById(req.params.id);
+        const StudentModel = getStudentModel(req.dbConnection);
+        
+        const student = await StudentModel.findOne({ studentId: id });
 
         if (!student) {
-            return res.status(404).json({ message: 'Student not found' });
+            return res.status(404).json({ message: 'Student not found' })
         }
 
         res.json(student);
     } catch (error) {
-        logger.error('Error fetching student by ID', error);
+        logger.error('Error fetching student by studentId', error);
         res.status(500).json({ message: 'Internal Server Error' });
     }
 };
