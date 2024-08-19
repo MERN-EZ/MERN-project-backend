@@ -6,7 +6,7 @@ import {
   getAllAssistants,
   updateAssistant,
   deleteAssistant,
-} from '../../controllers/assistant/assistantController.js';
+} from '../../controllers/admin/assistantController.js';
 
 const router = express.Router();
 
