@@ -2,13 +2,45 @@ import mongoose from "mongoose";
 
 const { Schema } = mongoose;
 
+const submissionSchema = new Schema({
+  studentId: { 
+    type: mongoose.Schema.Types.ObjectId, 
+    ref: 'Student', 
+    required: true 
+  },
+  submissionDate: { 
+    type: Date, 
+    default: Date.now 
+  },
+  submissionText: { 
+    type: String, 
+    required: true 
+  }
+});
+
 // Define the Homework schema
 const homeworkSchema = new Schema({
-  id: { type: Number, required: true },
-  title: { type: String, required: true },
-  description: { type: String, required: true },
-  deadline: { type: Date, required: true },
-  reminders: { type: [String], required: false },
+  id: { 
+    type: Number, 
+    required: true 
+  },
+  title: { 
+    type: String, 
+    required: true 
+  },
+  description: { 
+    type: String, 
+    required: true 
+  },
+  deadline: { 
+    type: Date, 
+    required: true 
+  },
+  reminders: { 
+    type: [String], 
+    required: false 
+  },
+  submissions: [submissionSchema] // Array of submissionSchema
 });
 // Pre-save hook to ensure only the date part is saved
 // homeworkSchema.pre("save", function (next) {
