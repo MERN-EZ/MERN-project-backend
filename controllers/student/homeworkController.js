@@ -20,7 +20,13 @@ export const getHomeWorks = async (req, res) => {
                         title: 1,
                         description: 1,
                         deadline: 1,
-                        reminders: 1
+                        reminders: 1,
+                        submissions: {
+                            studentId: 1,
+                            submissionText: 1,
+                            _id: 1,
+                            submissionDate: 1
+                        }
                     }
                 }
             }
@@ -130,60 +136,40 @@ export const addSubmission = async (req, res) => {
 // Update an existing homework submission
 export const updateSubmission = async (req, res) => {
     const { homeworkId, studentId } = req.params;
-    const { submissionText } = req.body;
+    const { submissionText, lessonId } = req.body;
+    console.log('Updating submission:', homeworkId, studentId, submissionText);
 
     try {
-        const lesson = await Lesson.findOne({
-            "homework._id": homeworkId,
-            "homework.submissions.studentId": studentId
-        });
+        const Lesson = getLessonModel(req.dbConnection);
+        // Fetch the lesson from the database
+        const lesson = await Lesson.findOne({ _id: lessonId });
 
-        if (lesson) {
-            const homework = lesson.homework.find(hw => hw._id.toString() === homeworkId);
-            const submission = homework.submissions.find(sub => sub.studentId.toString() === studentId);
-
-            if (submission) {
-                submission.submissionText = submissionText;
-                await lesson.save();
-                return res.json({ success: true, message: 'Submission updated successfully' });
-            }
+        if (!lesson) {
+            return res.status(404).json({ error: 'Lesson not found' });
         }
 
-        res.status(404).json({ error: 'Submission not found' });
+        // Find the specific homework
+        const homework = lesson.homework.find(hw => hw.id === homeworkId); // Note: Ensure homeworkId and hw.id are compared correctly
+
+        if (!homework) {
+            return res.status(404).json({ error: 'Homework not found' });
+        }
+
+        // Find the student's submission
+        const submission = homework.submissions.find(sub => sub.studentId.toString() === studentId);
+
+        if (submission) {
+            submission.submissionText = submissionText;
+            await lesson.save(); // Save changes to the lesson
+            return res.json({ success: true, message: 'Submission updated successfully' });
+        } else {
+            return res.status(404).json({ error: 'Submission not found' });
+        }
 
     } catch (error) {
         console.error('Error updating submission:', error);
-        res.status(500).json({ error: 'Internal Server Error' });
+        return res.status(500).json({ error: 'Internal Server Error' });
     }
 }
 
 // Function to check if submissions exist for each homework by a specific student
-export const checkSubmissions = async (studentId, dbConnection) => {
-   
-    
-    // Aggregate to find all homework items with their associated lesson details and submission status
-    const result = await Lesson.aggregate([
-        { $unwind: "$homework" },
-        {
-            $addFields: {
-                "homework.hasSubmission": {
-                    $in: [studentId, "$homework.submissions.studentId"]
-                }
-            }
-        },
-        {
-            $project: {
-                _id: 1,
-                title: 1,
-                "homework._id": 1,
-                "homework.title": 1,
-                "homework.description": 1,
-                "homework.deadline": 1,
-                "homework.reminders": 1,
-                "homework.hasSubmission": 1
-            }
-        }
-    ]);
-
-    return result;
-};
