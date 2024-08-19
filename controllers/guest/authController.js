@@ -3,30 +3,33 @@ import { getStudentModel } from "../../models/studentModel.js";
 import logger from '../../utils/logger.js';
 
 export const loginStudent = async (req, res) => {
+  logger.info('Login request received');
   const { username, password } = req.body;
-  const { dbConnection } = req;
 
   try {
-    const Student = getStudentModel(dbConnection);
+    const Student = getStudentModel(req.dbConnection);
     const student = await Student.findOne({ username });
+    logger.info();
+    logger.info(`User ${username} found`);
 
     if (!student) {
+      logger.error(`User ${username} not found`);
       return res.status(404).json({ message: 'User not found' });
     }
 
-    const isMatch = await bcrypt.compare(password, student.password);
+    //const isMatch = await bcrypt.compare(password, student.password);
 
-    if (!isMatch) {
-      return res.status(401).json({ message: 'Invalid credentials' });
-    }
+    //if (!isMatch) {
+      //return res.status(401).json({ message: 'Invalid credentials' });
+    //}
 
-    const batch = await getBatchInfoForStudent(student.studentId, dbConnection);
+    //const batch = await getBatchInfoForStudent(student.studentId, dbConnection);
 
     const userDetails = {
       username: student.username,
       email: student.email,
       contactNo: student.contactNo,
-      batch: batch,
+      batch: req['db-name'],
       studentId: student.studentId,
     };
 
