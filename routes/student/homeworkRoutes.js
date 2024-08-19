@@ -1,5 +1,5 @@
 import express from "express";
-import { getHomeWorks, addSubmission, updateSubmission } from "../../controllers/student/homeworkController.js";
+import { getHomeWorks, addSubmission, updateSubmission , checkSubmissions}  from "../../controllers/student/homeworkController.js";
 
 const router = express.Router();
 
@@ -13,7 +13,7 @@ router.get("/:id", getHomeWorks);
 router.post("/homework-submissions/:lessonId/:homeworkId", addSubmission);
 
 
-// router.get("/check-submission/:homeworkId/:studentId", checkStudentSubmission);
+router.get("/check-submission/:homeworkId/:studentId", checkSubmissions);
 
 // Route to update an existing homework submission
 router.put("/homework-submissions/:homeworkId/:studentId", updateSubmission);

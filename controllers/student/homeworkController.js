@@ -159,8 +159,8 @@ export const updateSubmission = async (req, res) => {
 
 // Function to check if submissions exist for each homework by a specific student
 export const checkSubmissions = async (studentId, dbConnection) => {
-    const Lesson = getLessonModel(dbConnection);
-
+   
+    
     // Aggregate to find all homework items with their associated lesson details and submission status
     const result = await Lesson.aggregate([
         { $unwind: "$homework" },
