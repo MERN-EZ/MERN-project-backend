@@ -46,22 +46,21 @@ export const getHomeworkById = async (req, res) => {
 
         // Use aggregation to find the homework and its lesson in one query
         const result = await Lesson.aggregate([
-            { $unwind: "$homework" },
-            { $match: { "homework._id": new mongoose.Types.ObjectId(homeworkId) } },
             {
                 $project: {
                     _id: 1,
                     title: 1,
                     homework: {
-                        _id: 1,
-                        title: 1,
-                        description: 1,
-                        deadline: 1,
-                        reminders: 1
+                        $cond: {
+                            if: { $isArray: "$homework" },
+                            then: "$homework",
+                            else: []
+                        }
                     }
                 }
             }
         ]);
+        
 
         if (result.length === 0) {
             return res.status(404).send('Homework not found');
@@ -89,5 +88,40 @@ export const getHomeworkById = async (req, res) => {
         console.error('Error fetching homework by ID:', error);
         res.status(500).send('Internal Server Error');
     }
-};
+}
+
+export const addSubmission = async (req, res) => {
+    try {
+      const Lesson = getLessonModel(req.dbConnection);
+      const lesson = await Lesson.findById(req.params.lessonId);
   
+      if (!lesson) {
+        return res.status(404).json({ error: 'Lesson not found' });
+      }
+  
+      const homeworkId = req.params.homeworkId;
+      const homework = lesson.homework.find(
+        (hw) => hw._id.toString() === homeworkId
+      );
+  
+      if (!homework) {
+        return res.status(404).json({ error: 'Homework not found' });
+      }
+  
+      // Initialize submissions array if it doesn't exist
+      if (!homework.submissions) {
+        homework.submissions = [];
+      }
+  
+      // Add the new submission to the homework's submissions array
+      homework.submissions.push(req.body);
+  
+      // Save the updated lesson
+      await lesson.save();
+  
+      res.status(200).json({ message: 'Submission added successfully', lesson });
+    } catch (err) {
+      res.status(400).json({ error: err.message });
+    }
+  };
+

@@ -3,12 +3,20 @@ import { getAttendanceModel } from '../../models/attendanceModel.js';
 import logger from '../../utils/logger.js';
 
 export const registerStudent = async (req, res) => {
-  const { firstName, lastName, contactNumber, email, username, password } =
+  const { firstName, lastName, contactNumber, email, username, password,transactionId, } =
     req.body;
 
   try {
     // Get the Student model for the current database connection
     const Student = getStudentModel(req.dbConnection);
+
+    const lastStudent = await Student.findOne().sort({ _id: -1 });
+
+    // Generate the new studentId
+    const year = new Date().getFullYear();
+    const newStudentId = lastStudent ? 
+      `${year}/${(parseInt(lastStudent.studentId.split('/')[1]) + 1).toString().padStart(4, '0')}` :
+      `${year}/0001`;
 
     // Create a new student record
     const newStudent = new Student({
@@ -18,6 +26,9 @@ export const registerStudent = async (req, res) => {
       email,
       username,
       password,
+      transactionId,
+      studentId: newStudentId,
+      status: 'Pending',
     });
 
     // Save the new student to the database
