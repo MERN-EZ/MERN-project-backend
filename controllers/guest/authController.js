@@ -26,9 +26,11 @@ export const loginStudent = async (req, res) => {
     //const batch = await getBatchInfoForStudent(student.studentId, dbConnection);
 
     const userDetails = {
+      firstName: student.firstName,
+      lastName: student.lastName,
       username: student.username,
       email: student.email,
-      contactNo: student.contactNo,
+      contactNumber: student.contactNumber,
       batch: req['db-name'],
       studentId: student.studentId,
     };
