@@ -10,7 +10,7 @@ import classRoutes from './routes/guest/classRoutes.js';
 import assistantUserRoutes from './routes/assistant/userRoutes.js';
 import studentRoutes from'./routes/student/studentRoutes.js';
 import authRoutes from './routes/guest/authRoutes.js';
-import adminAssistantRoutes from '.routes/admin/assistantRoutes.js';
+import adminAssistantRoutes from './routes/admin/assistantRoutes.js';
 
 const app = express();
 const PORT = process.env.PORT || '8090';
