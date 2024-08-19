@@ -146,19 +146,22 @@ export const updateSubmission = async (req, res) => {
 
         if (!lesson) {
             return res.status(404).json({ error: 'Lesson not found' });
+            console.log('Lesson not found');
         }
 
         // Find the specific homework
-        const homework = lesson.homework.find(hw => hw.id === homeworkId); // Note: Ensure homeworkId and hw.id are compared correctly
+        const homework = lesson.homework.find(hw => hw._id === homeworkId);
 
         if (!homework) {
             return res.status(404).json({ error: 'Homework not found' });
+            console.log('Homework not found');
         }
 
         // Find the student's submission
         const submission = homework.submissions.find(sub => sub.studentId.toString() === studentId);
 
         if (submission) {
+           console.log('Submission found:');
             submission.submissionText = submissionText;
             await lesson.save(); // Save changes to the lesson
             return res.json({ success: true, message: 'Submission updated successfully' });
