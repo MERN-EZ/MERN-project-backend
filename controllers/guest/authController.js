@@ -1,4 +1,4 @@
-import { getStudentModel } from "../../models/studentModel.js";
+import { getStudentModel } from '../../models/studentModel.js';
 //import bcrypt from 'bcryptjs';
 import logger from '../../utils/logger.js';
 
@@ -20,7 +20,7 @@ export const loginStudent = async (req, res) => {
     //const isMatch = await bcrypt.compare(password, student.password);
 
     //if (!isMatch) {
-      //return res.status(401).json({ message: 'Invalid credentials' });
+    //return res.status(401).json({ message: 'Invalid credentials' });
     //}
 
     //const batch = await getBatchInfoForStudent(student.studentId, dbConnection);
@@ -33,9 +33,13 @@ export const loginStudent = async (req, res) => {
       contactNumber: student.contactNumber,
       batch: req['db-name'],
       studentId: student.studentId,
+      registeredDate: student.registeredDate,
     };
-
-    logger.info(`User ${username} logged in successfully.`);
+    logger.info(
+      `User ${username} logged in successfully. UserDetails: ${JSON.stringify(
+        userDetails
+      )}`
+    );
     res.status(200).json(userDetails);
   } catch (error) {
     logger.error('Error during login:', error);
