@@ -181,4 +181,38 @@ export const updateSubmission = async (req, res) => {
   }
 };
 
-// Function to check if submissions exist for each homework by a specific student
+export const deleteSubmission = async (req, res) => {
+  const { homeworkId, studentId } = req.params;
+
+  try {
+    const Lesson = getLessonModel(req.dbConnection);
+    const lesson = await Lesson.findOne({ 'homework._id': homeworkId });
+
+    if (!lesson) {
+      return res.status(404).json({ error: 'Lesson not found' });
+    }
+
+    const homework = lesson.homework.find((hw) => hw._id.toString() === homeworkId);
+
+    if (!homework) {
+      return res.status(404).json({ error: 'Homework not found' });
+    }
+
+    const submissionIndex = homework.submissions.findIndex(
+      (sub) => sub.studentId.toString() === studentId
+    );
+
+    if (submissionIndex === -1) {
+      return res.status(404).json({ error: 'Submission not found' });
+    }
+
+    homework.submissions.splice(submissionIndex, 1);
+    await lesson.save();
+
+    return res.json({ message: 'Submission deleted successfully' });
+    console.log('Submission deleted successfully');
+  } catch (error) {
+    console.error('Error deleting submission:', error);
+    return res.status(500).json({ error: 'Internal Server Error' });
+  }
+};
