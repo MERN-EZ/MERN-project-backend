@@ -100,6 +100,7 @@ export const addSubmission = async (req, res) => {
   try {
     const Lesson = getLessonModel(req.dbConnection);
     const lesson = await Lesson.findById(req.params.lessonId);
+    console.log("body", req.body);
 
     if (!lesson) {
       return res.status(404).json({ error: 'Lesson not found' });
@@ -121,6 +122,7 @@ export const addSubmission = async (req, res) => {
 
     // Add the new submission to the homework's submissions array
     homework.submissions.push(req.body);
+    console.log(req.body);
 
     // Save the updated lesson
     await lesson.save();
