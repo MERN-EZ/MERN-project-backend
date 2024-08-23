@@ -3,8 +3,16 @@ import { getAttendanceModel } from '../../models/attendanceModel.js';
 import logger from '../../utils/logger.js';
 
 export const registerStudent = async (req, res) => {
-  const { firstName, lastName, contactNumber, email, username, password,transactionId, } =
-    req.body;
+  const {
+    firstName,
+    lastName,
+    contactNumber,
+    email,
+    username,
+    password,
+    transactionId,
+  } = req.body;
+
 
   try {
     // Get the Student model for the current database connection
@@ -14,9 +22,11 @@ export const registerStudent = async (req, res) => {
 
     // Generate the new studentId
     const year = new Date().getFullYear();
-    const newStudentId = lastStudent ? 
-      `${year}/${(parseInt(lastStudent.studentId.split('/')[1]) + 1).toString().padStart(4, '0')}` :
-      `${year}/0001`;
+    const newStudentId = lastStudent
+      ? `${year}/${(parseInt(lastStudent.studentId.split('/')[1]) + 1)
+          .toString()
+          .padStart(4, '0')}`
+      : `${year}/0001`;
 
     // Create a new student record
     const newStudent = new Student({
@@ -54,6 +64,6 @@ export const registerStudent = async (req, res) => {
         .json({ message: 'Email or Username already exists' });
     }
 
-    res.status(500).send('Internal Server Error');
+    res.status(500).json({ error: 'Internal Server Error' });
   }
 };
