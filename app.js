@@ -11,7 +11,6 @@ import assistantUserRoutes from './routes/assistant/userRoutes.js';
 import studentRoutes from './routes/student/studentRoutes.js';
 import authRoutes from './routes/guest/authRoutes.js';
 import adminAssistantRoutes from './routes/admin/assistantRoutes.js';
-
 const app = express();
 const PORT = process.env.PORT || '8090';
 
@@ -46,9 +45,8 @@ app.use(async (req, res, next) => {
 
 // Routes
 app.use('/student/homeworks', studentHomeworkRoutes);
-app.use('/student', deleteStudentRoutes);
-//app.use('/student/users', studentRoutes);
 app.use('/student', studentRoutes);
+//app.use('/student/users', studentRoutes);
 
 app.use('/teacher/lessons', teacherLessonRoutes);
 app.use('/teacher/homework', teacherHomeworkRoutes);
