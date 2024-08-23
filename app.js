@@ -9,8 +9,9 @@ import studentRequestRoutes from './routes/admin/studentRequestRoutes.js';
 import guestRegistrationRoutes from './routes/guest/registerRoutes.js';
 import classRoutes from './routes/guest/classRoutes.js';
 import assistantUserRoutes from './routes/assistant/userRoutes.js';
-import studentRoutes from'./routes/student/studentRoutes.js';
+import studentRoutes from './routes/student/studentRoutes.js';
 import authRoutes from './routes/guest/authRoutes.js';
+import adminAssistantRoutes from './routes/admin/assistantRoutes.js';
 
 const app = express();
 const PORT = process.env.PORT || '8090';
@@ -46,7 +47,9 @@ app.use(async (req, res, next) => {
 
 // Routes
 app.use('/student/homeworks', studentHomeworkRoutes);
-app.use("/student/users", studentRoutes);
+app.use('/student', deleteStudentRoutes);
+//app.use('/student/users', studentRoutes);
+app.use('/student', studentRoutes);
 
 app.use('/teacher/lessons', teacherLessonRoutes);
 app.use('/teacher/homework', teacherHomeworkRoutes);
@@ -59,6 +62,8 @@ app.use('/guest/auth', authRoutes);
 app.use('/assistant/users', assistantUserRoutes);
 
 app.use('/student/requests', studentRequestRoutes);
+// Admin - Assistant routes
+app.use('/admin/assistants', adminAssistantRoutes);
 
 // Error handling middleware for 404 errors
 app.use((req, res, next) => {
