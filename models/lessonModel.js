@@ -4,8 +4,7 @@ const { Schema } = mongoose;
 
 const submissionSchema = new Schema({
   studentId: { 
-    type: mongoose.Schema.Types.ObjectId, 
-    ref: 'Student', 
+    type: String,  
     required: true 
   },
   submissionDate: { 
