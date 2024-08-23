@@ -7,8 +7,10 @@ const classSchema = new mongoose.Schema({
   ongoingLesson: { type: String, required: true },
   admissionFee: { type: Number, required: false },
   monthlyFee: { type: Number, required: false },
+  year: { type: String, required: true },
 });
 
-const getClassModel = (dbConnection) => dbConnection.model('Class', classSchema);
+const getClassModel = (dbConnection) =>
+  dbConnection.model('Class', classSchema);
 
 export { getClassModel };
