@@ -13,11 +13,15 @@ export const registerStudent = async (req, res) => {
     transactionId,
   } = req.body;
 
+  const db = req.headers['db-name'];
 
   try {
+    logger.info(`Db received: ${db}`);
+
     // Get the Student model for the current database connection
     const Student = getStudentModel(req.dbConnection);
 
+    // Find the last student to generate the new studentId
     const lastStudent = await Student.findOne().sort({ _id: -1 });
 
     // Generate the new studentId
@@ -44,6 +48,7 @@ export const registerStudent = async (req, res) => {
     // Save the new student to the database
     await newStudent.save();
 
+    // Get the Attendance model and create a new attendance record
     const Attendance = getAttendanceModel(req.dbConnection);
     const newAttendance = new Attendance({
       firstName,
@@ -55,7 +60,12 @@ export const registerStudent = async (req, res) => {
     logger.info(`New student registered: ${username}`);
     res.status(201).json({ message: 'Student registered successfully!' });
   } catch (error) {
-    logger.error('Error registering student:', error);
+    logger.error('Error during student registration:', {
+      message: error.message,
+      stack: error.stack,
+      dbName: db,
+      body: req.body,
+    });
 
     // Check if the error is related to unique fields (e.g., email, username)
     if (error.code === 11000) {
