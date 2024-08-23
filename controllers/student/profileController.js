@@ -49,21 +49,21 @@ export const updateStudentProfile = async (req, res) => {
 };
 
 export const deleteStudentProfile = async (req, res) => {
-    const studentId = req.user.studentId; // Get studentId from request user context or header
-    logger.info(`Deleting student with studentId: ${studentId}`);
-  
-    try {
-      const StudentModel = getStudentModel(req.dbConnection);
-  
-      const result = await StudentModel.findOneAndDelete({ studentId });
-  
-      if (!result) {
-        return res.status(404).json({ message: 'Student not found' });
-      }
-  
-      res.json({ message: 'Student profile deleted successfully' });
-    } catch (error) {
-      logger.error('Error deleting student profile', error);
-      res.status(500).json({ message: 'Internal Server Error' });
+  const studentId = req.user.studentId; // Get studentId from request user context or header
+  logger.info(`Deleting student with studentId: ${studentId}`);
+
+  try {
+    const StudentModel = getStudentModel(req.dbConnection);
+
+    const result = await StudentModel.findOneAndDelete({ studentId });
+
+    if (!result) {
+      return res.status(404).json({ message: 'Student not found' });
     }
-  };
+
+    res.json({ message: 'Student profile deleted successfully' });
+  } catch (error) {
+    logger.error('Error deleting student profile', error);
+    res.status(500).json({ message: 'Internal Server Error' });
+  }
+};
