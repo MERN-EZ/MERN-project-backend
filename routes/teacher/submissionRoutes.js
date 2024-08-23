@@ -1,8 +1,8 @@
 import express from 'express';
-import { getSubmissions } from '../../controllers/teacher/lessonController.js';
+import { getSubmissions } from '../../controllers/teacher/submissionController.js';
 
 const router = express.Router();
 
-router.get('/:lessonId/:homework', getAllLessons);
+router.get('/:lessonId/:homeworkId', getSubmissions);
 
 export default router;

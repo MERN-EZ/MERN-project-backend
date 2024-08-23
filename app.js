@@ -11,7 +11,7 @@ import assistantUserRoutes from './routes/assistant/userRoutes.js';
 import studentRoutes from './routes/student/studentRoutes.js';
 import authRoutes from './routes/guest/authRoutes.js';
 import adminAssistantRoutes from './routes/admin/assistantRoutes.js';
-import teacherSubmissionRoutes from './routes/teacher/submissionsRoutes.js';
+import teacherSubmissionRoutes from './routes/teacher/submissionRoutes.js';
 
 const app = express();
 const PORT = process.env.PORT || '8090';
