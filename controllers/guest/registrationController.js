@@ -51,7 +51,7 @@ export const registerStudent = async (req, res) => {
     // Get the Attendance model and create a new attendance record
     const Attendance = getAttendanceModel(req.dbConnection);
     const newAttendance = new Attendance({
-      studentId,
+      studentId: newStudentId,
       firstName,
       lastName,
       attendance: {},

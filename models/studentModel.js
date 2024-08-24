@@ -15,7 +15,7 @@ const studentSchema = new mongoose.Schema({
     default: 'Pending',
   },
   registeredDate: { type: Date, default: Date.now },
-  studentId: { type: String, unique: true },
+  studentId: { type: String, required: true, unique: true },
 });
 
 const getStudentModel = (dbConnection) =>
