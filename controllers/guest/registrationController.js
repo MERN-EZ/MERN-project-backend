@@ -25,7 +25,7 @@ export const registerStudent = async (req, res) => {
     const lastStudent = await Student.findOne().sort({ _id: -1 });
 
     // Generate the new studentId
-    const year = new Date().getFullYear();
+    const year = db;
     const newStudentId = lastStudent
       ? `${year}/${(parseInt(lastStudent.studentId.split('/')[1]) + 1)
           .toString()
@@ -51,6 +51,7 @@ export const registerStudent = async (req, res) => {
     // Get the Attendance model and create a new attendance record
     const Attendance = getAttendanceModel(req.dbConnection);
     const newAttendance = new Attendance({
+      studentId,
       firstName,
       lastName,
       attendance: {},
