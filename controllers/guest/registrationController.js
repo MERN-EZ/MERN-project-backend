@@ -27,10 +27,10 @@ export const registerStudent = async (req, res) => {
     // Generate the new studentId
     const year = db;
     const newStudentId = lastStudent
-      ? `${year}/${(parseInt(lastStudent.studentId.split('/')[1]) + 1)
+      ? `${year}_${(parseInt(lastStudent.studentId.split('_')[1]) + 1)
           .toString()
           .padStart(4, '0')}`
-      : `${year}/0001`;
+      : `${year}_0001`;
 
     // Create a new student record
     const newStudent = new Student({
