@@ -3,20 +3,34 @@ import { getAttendanceModel } from '../../models/attendanceModel.js';
 import logger from '../../utils/logger.js';
 
 export const registerStudent = async (req, res) => {
-  const { firstName, lastName, contactNumber, email, username, password,transactionId, } =
-    req.body;
+  const {
+    firstName,
+    lastName,
+    contactNumber,
+    email,
+    username,
+    password,
+    transactionId,
+  } = req.body;
+
+  const db = req.headers['db-name'];
 
   try {
+    logger.info(`Db received: ${db}`);
+
     // Get the Student model for the current database connection
     const Student = getStudentModel(req.dbConnection);
 
+    // Find the last student to generate the new studentId
     const lastStudent = await Student.findOne().sort({ _id: -1 });
 
     // Generate the new studentId
     const year = new Date().getFullYear();
-    const newStudentId = lastStudent ? 
-      `${year}/${(parseInt(lastStudent.studentId.split('/')[1]) + 1).toString().padStart(4, '0')}` :
-      `${year}/0001`;
+    const newStudentId = lastStudent
+      ? `${year}/${(parseInt(lastStudent.studentId.split('/')[1]) + 1)
+          .toString()
+          .padStart(4, '0')}`
+      : `${year}/0001`;
 
     // Create a new student record
     const newStudent = new Student({
@@ -34,6 +48,7 @@ export const registerStudent = async (req, res) => {
     // Save the new student to the database
     await newStudent.save();
 
+    // Get the Attendance model and create a new attendance record
     const Attendance = getAttendanceModel(req.dbConnection);
     const newAttendance = new Attendance({
       firstName,
@@ -45,7 +60,12 @@ export const registerStudent = async (req, res) => {
     logger.info(`New student registered: ${username}`);
     res.status(201).json({ message: 'Student registered successfully!' });
   } catch (error) {
-    logger.error('Error registering student:', error);
+    logger.error('Error during student registration:', {
+      message: error.message,
+      stack: error.stack,
+      dbName: db,
+      body: req.body,
+    });
 
     // Check if the error is related to unique fields (e.g., email, username)
     if (error.code === 11000) {
@@ -54,6 +74,6 @@ export const registerStudent = async (req, res) => {
         .json({ message: 'Email or Username already exists' });
     }
 
-    res.status(500).send('Internal Server Error');
+    res.status(500).json({ error: 'Internal Server Error' });
   }
 };

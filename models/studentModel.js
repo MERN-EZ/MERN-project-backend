@@ -1,6 +1,7 @@
 import mongoose from 'mongoose';
 
 const studentSchema = new mongoose.Schema({
+  //_id: mongoose.Schema.Types.ObjectId,
   firstName: { type: String, required: true },
   lastName: { type: String, required: true },
   contactNumber: { type: String, required: true },
