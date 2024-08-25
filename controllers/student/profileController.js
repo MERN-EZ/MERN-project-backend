@@ -49,7 +49,7 @@ export const updateStudentProfile = async (req, res) => {
 };
 
 export const deleteStudentProfile = async (req, res) => {
-  const studentId = req.user.studentId; // Get studentId from request user context or header
+  const { studentId } = req.query; // Get studentId from request user context or header
   logger.info(`Deleting student with studentId: ${studentId}`);
 
   try {
