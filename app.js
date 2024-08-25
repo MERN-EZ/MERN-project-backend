@@ -62,6 +62,7 @@ app.use('/guest/auth', authRoutes);
 
 app.use('/assistant/users', assistantUserRoutes);
 
+// Admin - Student Requests routes
 app.use('/student/requests', studentRequestRoutes);
 // Admin - Assistant routes
 app.use('/admin/assistants', adminAssistantRoutes);

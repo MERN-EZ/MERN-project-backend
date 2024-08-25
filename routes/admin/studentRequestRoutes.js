@@ -1,5 +1,4 @@
 // Define routes to handle API requests for student requests.
-
 import express from 'express';
 import { 
     getAllStudentRequests, 
@@ -13,9 +12,11 @@ const router = express.Router();
 router.get('/', getAllStudentRequests);
 
 // Route to accept a student request
-router.post('/accept/:id', acceptStudentRequest);
+// (updates the status to "accepted").
+router.put('/accept/:id', acceptStudentRequest);
 
 // Route to reject a student request
-router.post('/reject/:id', rejectStudentRequest);
+// (updates the status to "rejected").
+router.put('/reject/:id', rejectStudentRequest);
 
 export default router;
