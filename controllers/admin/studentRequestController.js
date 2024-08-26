@@ -17,9 +17,10 @@ export const getAllStudentRequests = async (req, res) => {
 
 // Accept a student request
 export const acceptStudentRequest = async (req, res) => {
+    const studentId = req.params.id; // Access the student ID from the URL
     try {
         const Student = getStudentModel(req.dbConnection);
-        const request = await Student.findById(req.params.id); // Find the request by ID
+        const request = await Student.findOne({ studentId }); // Find the student request by studentId
 
         if (!request) {
             return res.status(404).json({ message: 'Request not found' }); // Handle not found
@@ -38,9 +39,10 @@ export const acceptStudentRequest = async (req, res) => {
 
 // Reject a student request
 export const rejectStudentRequest = async (req, res) => {
+    const studentId = req.params.id; // Access the student ID from the URL
     try {
         const Student = getStudentModel(req.dbConnection);
-        const request = await Student.findById(req.params.id); // Find the request by ID
+        const request = await Student.findOne({ studentId }); // Find the student request by studentId
 
         if (!request) {
             return res.status(404).json({ message: 'Request not found' }); // Handle not found
