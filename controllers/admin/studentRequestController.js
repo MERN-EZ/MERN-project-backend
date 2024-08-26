@@ -21,6 +21,7 @@ export const acceptStudentRequest = async (req, res) => {
     try {
         const Student = getStudentModel(req.dbConnection);
         const request = await Student.findOne({ studentId }); // Find the student request by studentId
+        // const request = await Student.findOne({ studentId: studentId });
 
         if (!request) {
             return res.status(404).json({ message: 'Request not found' }); // Handle not found
