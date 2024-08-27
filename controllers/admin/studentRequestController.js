@@ -17,17 +17,22 @@ export const getAllStudentRequests = async (req, res) => {
 
 // Accept a student request
 export const acceptStudentRequest = async (req, res) => {
+    console.log('Incoming request to accept student:', req.params.id); 
+    console.log('Request body:', req.body);
+
     const studentId = req.params.id; // Access the student ID from the URL
     try {
         const Student = getStudentModel(req.dbConnection);
         const request = await Student.findOne({ studentId }); // Find the student request by studentId
         // const request = await Student.findOne({ studentId: studentId });
+        console.log('Student request found:', request);
 
         if (!request) {
             return res.status(404).json({ message: 'Request not found' }); // Handle not found
         }
 
         request.status = 'Approved'; // Update status to Approved
+        console.log('Updated request status:', request.status);
         await request.save(); // Save the updated request
 
         // Logic to create a student account goes here
