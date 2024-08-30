@@ -49,7 +49,9 @@ app.use(async (req, res, next) => {
 // Routes
 app.use('/student/homeworks', studentHomeworkRoutes);
 app.use('/student', studentRoutes);
-app.use('/student/support', supportRoutes);
+// app.js
+app.use('/student/studentSupportPage', supportRoutes);
+
 //app.use('/student/users', studentRoutes);
 
 app.use('/teacher/lessons', teacherLessonRoutes);

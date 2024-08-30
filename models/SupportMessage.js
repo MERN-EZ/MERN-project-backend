@@ -1,7 +1,7 @@
-// models/SupportMessage.js
 import mongoose from 'mongoose';
 
-const SupportMessageSchema = new mongoose.Schema({
+// Define the schema for support messages
+const supportMessageSchema = new mongoose.Schema({
   studentId: { type: String, required: true },
   name: { type: String, required: true },
   email: { type: String, required: true },
@@ -10,4 +10,8 @@ const SupportMessageSchema = new mongoose.Schema({
   createdAt: { type: Date, default: Date.now }
 });
 
-export const SupportMessage = mongoose.model('SupportMessage', SupportMessageSchema);
+// Function to get the SupportMessage model
+const getSupportMessageModel = (dbConnection) =>
+  dbConnection.model('SupportMessage', supportMessageSchema);
+
+export { getSupportMessageModel };
