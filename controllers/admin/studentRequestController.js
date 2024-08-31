@@ -36,7 +36,7 @@ export const acceptStudentRequest = async (req, res) => {
         await request.save(); // Save the updated request
 
         // Logic to create a student account goes here
-        res.json({ message: 'Request accepted and student account created' }); // Success response
+        res.json({ message: 'Request accepted and student account created' ,'studentId': studentId }); // Success response
     } catch (err) {
         logger.error('Error accepting student request:', err);
         res.status(500).json({ message: err.message });
