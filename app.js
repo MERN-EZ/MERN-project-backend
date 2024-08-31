@@ -12,6 +12,7 @@ import assistantUserRoutes from './routes/assistant/userRoutes.js';
 import studentRoutes from './routes/student/studentRoutes.js';
 import authRoutes from './routes/guest/authRoutes.js';
 import adminAssistantRoutes from './routes/admin/assistantRoutes.js';
+import supportRoutes from './routes/student/supportRoutes.js';
 import teacherSubmissionRoutes from './routes/teacher/submissionRoutes.js';
 
 const app = express();
@@ -49,6 +50,9 @@ app.use(async (req, res, next) => {
 // Routes
 app.use('/student/homeworks', studentHomeworkRoutes);
 app.use('/student', studentRoutes);
+// app.js
+app.use('/student/studentSupportPage', supportRoutes);
+
 //app.use('/student/users', studentRoutes);
 
 app.use('/teacher/lessons', teacherLessonRoutes);
