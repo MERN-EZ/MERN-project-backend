@@ -10,11 +10,9 @@ import {
 
 const router = express.Router();
 
-// Route to create a new assistant
-router.post('/', createAssistant);
+// Route to create a new assistant and display all assistants
+router.post('/', Assistant);
 
-// Route to get all assistants
-router.get('/', getAllAssistants);
 
 // // Route to update an assistant by ID
 // router.put('/:id', updateAssistant);
