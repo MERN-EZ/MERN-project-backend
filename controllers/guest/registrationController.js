@@ -63,7 +63,7 @@ export const registerStudent = async (req, res) => {
     logger.info(`New student registered: ${username}`);
     res.status(201).json({ message: 'Student registered successfully!' });
   } catch (error) {
-    logger.error('Error during student registration:', {
+    console.log('Error during student registration:', {
       message: error.message,
       stack: error.stack,
       dbName: db,
