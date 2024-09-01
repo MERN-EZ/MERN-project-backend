@@ -4,7 +4,7 @@ import express from 'express';
 import {
   createAssistant,
   getAllAssistants,
-  //   updateAssistant,
+  updateAssistant,
   deleteAssistant,
 } from '../../controllers/admin/assistantController.js';
 
@@ -16,7 +16,7 @@ router.post('/', createAssistant);
 router.get('/', getAllAssistants);
 
 // // Route to update an assistant by ID
-// router.put('/:id', updateAssistant);
+router.put('/:id', updateAssistant);
 
 // // Route to delete an assistant by ID
 router.delete('/:id', deleteAssistant);

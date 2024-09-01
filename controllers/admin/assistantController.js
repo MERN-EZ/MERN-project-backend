@@ -33,28 +33,31 @@ export const getAllAssistants = async (req, res) => {
 };
 
 // Update an assistant by ID
-// export const updateAssistant = async (req, res) => {
-//   logger.info('Updating an assistant');
-//   try {
-//     const Assistant = getAssistantModel(req.dbConnection);
-//     const assistant = await Assistant.findByIdAndUpdate(
-//       req.params.id,
-//       { $set: req.body },  // Update the assistant with the request body data
-//       {
-//         new: true,
-//         runValidators: true,
-//       }
-//     );
-//     if (!assistant) {
-//       return res.status(404).json({ error: 'Assistant not found' });
-//     }
-//     logger.info('Assistant updated successfully');
-//     res.status(200).json(assistant);
-//   } catch (err) {
-//     logger.error('Error updating assistant:', err);
-//     res.status(400).json({ error: err.message });
-//   }
-// };
+export const updateAssistant = async (req, res) => {
+  logger.info('Updating an assistant');
+  // Log the request body to see what data is being sent
+  logger.info('Request body:', req.body);
+
+  try {
+    const Assistant = getAssistantModel(req.dbConnection);
+    const assistant = await Assistant.findByIdAndUpdate(
+      req.params.id,
+      { $set: req.body }, // Update the assistant with the request body data
+      {
+        new: true,
+        runValidators: true,
+      }
+    );
+    if (!assistant) {
+      return res.status(404).json({ error: 'Assistant not found' });
+    }
+    logger.info('Assistant updated successfully');
+    res.status(200).json(assistant);
+  } catch (err) {
+    logger.error('Error updating assistant:', err);
+    res.status(400).json({ error: err.message });
+  }
+};
 
 // Delete an assistant by ID
 export const deleteAssistant = async (req, res) => {
@@ -68,7 +71,6 @@ export const deleteAssistant = async (req, res) => {
     }
     logger.info('Assistant deleted successfully');
     res.status(200).json({ message: 'Assistant deleted successfully' });
-
   } catch (err) {
     logger.error('Error deleting assistant:', err);
     res.status(500).json({ error: err.message });
