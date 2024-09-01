@@ -1,6 +1,7 @@
 import { getStudentModel } from '../../models/studentModel.js';
 import { getAttendanceModel } from '../../models/attendanceModel.js';
 import logger from '../../utils/logger.js';
+import bcrypt from 'bcryptjs';
 
 export const registerStudent = async (req, res) => {
   const {
@@ -32,6 +33,7 @@ export const registerStudent = async (req, res) => {
           .padStart(4, '0')}`
       : `${year}_0001`;
 
+    const hashedPassword = await bcrypt.hash(password, 10);
     // Create a new student record
     const newStudent = new Student({
       firstName,
@@ -39,7 +41,7 @@ export const registerStudent = async (req, res) => {
       contactNumber,
       email,
       username,
-      password,
+      password: hashedPassword,
       transactionId,
       studentId: newStudentId,
       status: 'Pending',
