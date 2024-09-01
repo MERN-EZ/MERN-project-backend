@@ -1,5 +1,5 @@
 import { getStudentModel } from '../../models/studentModel.js';
-//import bcrypt from 'bcryptjs';
+import bcrypt from 'bcryptjs';
 import logger from '../../utils/logger.js';
 
 export const loginStudent = async (req, res) => {
@@ -17,17 +17,22 @@ export const loginStudent = async (req, res) => {
       return res.status(404).json({ message: 'User not found' });
     }
 
-    //const isMatch = await bcrypt.compare(password, student.password);
+    if (student.status !== 'Approved') {
+      logger.error(`User ${username} has status: ${student.status}`);
+      return res.status(403).json({ message: `Account is ${student.status}` });
+    } 
 
-    //if (!isMatch) {
-    //return res.status(401).json({ message: 'Invalid credentials' });
-    //}
+    const isMatch = await bcrypt.compare(password, student.password);
+
+    if (!isMatch) {
+      return res.status(401).json({ message: 'Invalid credentials' });
+    }
 
     //const batch = await getBatchInfoForStudent(student.studentId, dbConnection);
 
-    if (year !== student.studentId.split('_')[0]) {
+    /* if (year !== student.studentId.split('_')[0]) {
       return res.status(400).json({ message: 'Incorrect year for this user' });
-    }
+    } */
 
     const userDetails = {
       firstName: student.firstName,
