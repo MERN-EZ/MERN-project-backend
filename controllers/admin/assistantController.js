@@ -1,5 +1,4 @@
 // Handles the business logic for creating, retrieving, updating, and deleting assistants.
-
 import { getAssistantModel } from '../../models/assistantModel.js';
 import logger from '../../utils/logger.js';
 
@@ -58,19 +57,20 @@ export const getAllAssistants = async (req, res) => {
 // };
 
 // Delete an assistant by ID
-// export const deleteAssistant = async (req, res) => {
-//   logger.info('Deleting an assistant');
-//   try {
-//     const Assistant = getAssistantModel(req.dbConnection);
-//     const deletedAssistant = await Assistant.findByIdAndDelete(req.params.id);
+export const deleteAssistant = async (req, res) => {
+  logger.info('Deleting an assistant');
+  try {
+    const Assistant = getAssistantModel(req.dbConnection);
+    const deletedAssistant = await Assistant.findByIdAndDelete(req.params.id);
 
-//     if (!deletedAssistant) {
-//       return res.status(404).json({ error: 'Assistant not found' });
-//     }
-//     logger.info('Assistant deleted successfully');
-//     res.status(200).json({ message: 'Assistant deleted successfully' });
-//   } catch (err) {
-//     logger.error('Error deleting assistant:', err);
-//     res.status(500).json({ error: err.message });
-//   }
-// };
+    if (!deletedAssistant) {
+      return res.status(404).json({ error: 'Assistant not found' });
+    }
+    logger.info('Assistant deleted successfully');
+    res.status(200).json({ message: 'Assistant deleted successfully' });
+
+  } catch (err) {
+    logger.error('Error deleting assistant:', err);
+    res.status(500).json({ error: err.message });
+  }
+};

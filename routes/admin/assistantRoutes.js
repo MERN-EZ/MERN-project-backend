@@ -5,19 +5,20 @@ import {
   createAssistant,
   getAllAssistants,
   //   updateAssistant,
-  //   deleteAssistant,
+  deleteAssistant,
 } from '../../controllers/admin/assistantController.js';
 
 const router = express.Router();
 
-// Route to create a new assistant and display all assistants
-router.post('/', Assistant);
-
+// Route to create a new assistant
+router.post('/', createAssistant);
+// Route to display all assistants
+router.get('/', getAllAssistants);
 
 // // Route to update an assistant by ID
 // router.put('/:id', updateAssistant);
 
 // // Route to delete an assistant by ID
-// router.delete('/:id', deleteAssistant);
+router.delete('/:id', deleteAssistant);
 
 export default router;
