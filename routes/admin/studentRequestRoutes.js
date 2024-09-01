@@ -12,11 +12,11 @@ const router = express.Router();
 router.get('/', getAllStudentRequests);
 
 // Route to accept a student request
-// (updates the status to "accepted").
+// (updates the status to "accepted")
 router.put('/accept/:id', acceptStudentRequest);
 
 // Route to reject a student request
-// (updates the status to "rejected").
+// (updates the status to "rejected")
 router.put('/reject/:id', rejectStudentRequest);
 
 export default router;
