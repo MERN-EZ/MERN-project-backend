@@ -19,7 +19,6 @@ export const sendMessage = async (req, res) => {
       name,
       email,
       message,
-      batch,
     });
 
     console.log('NewMessage', newMessage);
