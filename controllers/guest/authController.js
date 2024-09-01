@@ -4,7 +4,7 @@ import logger from '../../utils/logger.js';
 
 export const loginStudent = async (req, res) => {
   logger.info('Login request received');
-  const { username, password } = req.body;
+  const { username, password, year } = req.body;
 
   try {
     const Student = getStudentModel(req.dbConnection);
@@ -13,7 +13,7 @@ export const loginStudent = async (req, res) => {
     logger.info(`User ${username} found`);
 
     if (!student) {
-      logger.error(`User ${username} not found`);
+      logger.error(`User ${username} not found in the year ${year}`);
       return res.status(404).json({ message: 'User not found' });
     }
 
@@ -25,13 +25,17 @@ export const loginStudent = async (req, res) => {
 
     //const batch = await getBatchInfoForStudent(student.studentId, dbConnection);
 
+    if (year !== student.studentId.split('_')[0]) {
+      return res.status(400).json({ message: 'Incorrect year for this user' });
+    }
+
     const userDetails = {
       firstName: student.firstName,
       lastName: student.lastName,
       username: student.username,
       email: student.email,
       contactNumber: student.contactNumber,
-      batch: req['db-name'],
+      batch: year,
       studentId: student.studentId,
       registeredDate: student.registeredDate,
     };
