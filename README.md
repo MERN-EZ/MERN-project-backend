@@ -3,7 +3,7 @@
 <div align="center" style="margin-bottom: 40px;">
 
   <div style="display: flex; align-items: center; justify-content: center;">
-    <img src="./public/assets/logo.png" alt="InfoTech Logo" width="100" height="100">
+    <img src="./public/assets/logo.png" alt="InfoTech Logo" width="100" height="100"> 
     <h1 style="margin-left: 20px;">InfoTech: Streamline Educational Processes</h1>
   </div>
 
