@@ -18,6 +18,7 @@ import teacherSubmissionRoutes from './routes/teacher/submissionRoutes.js';
 import { authenticateToken, authorizeRole } from './utils/authFunctions.js';
 import studentHomeRoutes from './routes/student/homeRoutes.js';
 
+
 const app = express();
 const PORT = process.env.PORT || '8090';
 const SECRET_KEY = process.env.SECRET_KEY;
@@ -65,6 +66,8 @@ app.use('/assistant/users', assistantUserRoutes);
 
 // Admin - Assistant routes
 app.use('/admin/assistants', adminAssistantRoutes);
+
+
 
 // Error handling middleware for 404 errors
 app.use((req, res, next) => {
