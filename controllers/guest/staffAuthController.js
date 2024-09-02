@@ -50,8 +50,19 @@ export const registerStaff = async (req, res) => {
       return res.status(409).json({ message: 'User already exists' });
     }
 
+    let newStaffId;
+    if (role === 'admin') {
+      const lastAdmin = await Staff.findOne({ role: 'admin' }).sort({ _id: -1 });
+      const numberA = lastAdmin ? parseInt(lastAdmin.staffId.split('_')[1]) + 1 : 1;
+      newStaffId = `admin_${numberA.toString().padStart(2, '0')}`;
+    } else {
+      const lastTeacher = await Staff.findOne({ role: 'teacher' }).sort({ _id: -1 });
+      const numberT = lastTeacher ? parseInt(lastTeacher.staffId.split('_')[1]) + 1 : 1;
+      newStaffId = `teacher_${numberT.toString().padStart(2, '0')}`;
+    }
+
     const hashedPassword = await bcrypt.hash(password, 10);
-    const newStaff = new Staff({ username, password: hashedPassword, role });
+    const newStaff = new Staff({ id: newStaffId, username, password: hashedPassword, role });
     await newStaff.save();
 
     logger.info(`User ${username} registered successfully`);

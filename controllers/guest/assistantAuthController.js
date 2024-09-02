@@ -1,12 +1,7 @@
 import { getAssistantModel } from '../../models/assistantModel.js';
 import bcrypt from 'bcryptjs';
 import logger from '../../utils/logger.js';
-import jwt from 'jsonwebtoken';
-const SECRET_KEY = process.env.SECRET_KEY;
-
-function generateToken(user) {
-  return jwt.sign({ id: user.id, role: user.role }, SECRET_KEY, { expiresIn: '1h' });
-}
+import { generateToken } from '../../utils/authFunctions.js';
 
 export const loginAssistant = async (req, res) => {
   logger.info('Login request received');

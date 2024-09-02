@@ -1,5 +1,5 @@
 import express from 'express';
-import { loginStudent } from '../../controllers/guest/authController.js';
+import { loginStudent } from '../../controllers/guest/studentAuthController.js';
 import { loginStaff, registerStaff } from '../../controllers/guest/staffAuthController.js';
 import { loginAssistant } from '../../controllers/guest/assistantAuthController.js';
 
