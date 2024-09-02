@@ -1,6 +1,8 @@
 import express from 'express';
 import { connect } from './utils/database.connection.js';
 import logger from './utils/logger.js';
+import cookieParser from 'cookie-parser';
+import cors from 'cors';
 import teacherLessonRoutes from './routes/teacher/lessonRoutes.js';
 import teacherHomeworkRoutes from './routes/teacher/homeworkRoutes.js';
 import teacherClassRoutes from './routes/teacher/classRoutes.js';
@@ -13,29 +15,25 @@ import authRoutes from './routes/guest/authRoutes.js';
 import adminAssistantRoutes from './routes/admin/assistantRoutes.js';
 import supportRoutes from './routes/student/supportRoutes.js';
 import teacherSubmissionRoutes from './routes/teacher/submissionRoutes.js';
+import { authenticateToken, authorizeRole } from './utils/authFunctions.js';
 import studentHomeRoutes from './routes/student/homeRoutes.js';
 
 const app = express();
 const PORT = process.env.PORT || '8090';
+const SECRET_KEY = process.env.SECRET_KEY;
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(cookieParser());
 
-app.use((req, res, next) => {
-  res.header('Access-Control-Allow-Origin', '*'); // Allow all origins
-  res.header(
-    'Access-Control-Allow-Headers',
-    'Origin, X-Requested-With, Content-Type, Accept, db-name'
-  );
-  res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
-
-  if (req.method === 'OPTIONS') {
-    console.log('Received a preflight request!');
-    res.sendStatus(200);
-  } else {
-    next();
-  }
-});
+app.use(
+  cors({
+    origin: 'http://localhost:3000',
+    credentials: true, // Allow credentials (cookies) to be sent/received
+    methods: 'GET,POST,PUT,DELETE,OPTIONS',
+    allowedHeaders: 'Origin,X-Requested-With,Content-Type,Accept,db-name,Authorization',
+  })
+);
 
 app.use(async (req, res, next) => {
   logger.info(`---------------------------------`);
@@ -47,23 +45,21 @@ app.use(async (req, res, next) => {
   next();
 });
 
-// Routes
-app.use('/student/homeworks', studentHomeworkRoutes);
-app.use('/student', studentRoutes);
-// app.js
-app.use('/student/studentSupportPage', supportRoutes);
-app.use('/student/class' , studentHomeRoutes);
-
-//app.use('/student/users', studentRoutes);
-
-app.use('/teacher/lessons', teacherLessonRoutes);
-app.use('/teacher/homework', teacherHomeworkRoutes);
-app.use('/teacher/class', teacherClassRoutes);
-app.use('/teacher/submissions', teacherSubmissionRoutes);
-
 app.use('/guest/register', guestRegistrationRoutes);
 app.use('/guest/classes', classRoutes);
 app.use('/guest/auth', authRoutes);
+
+app.use('/student/homeworks', authenticateToken, authorizeRole('student', 'teacher'), studentHomeworkRoutes);
+app.use('/student/class', authenticateToken, authorizeRole('student'), studentHomeRoutes);
+app.use('/student/studentSupportPage', authenticateToken, authorizeRole('student'), supportRoutes);
+app.use('/student', authenticateToken, authorizeRole('student'), studentRoutes);
+
+//app.use('/student/users', studentRoutes);
+
+app.use('/teacher/lessons', authenticateToken, authorizeRole('teacher'), teacherLessonRoutes);
+app.use('/teacher/homework', authenticateToken, authorizeRole('teacher'), teacherHomeworkRoutes);
+app.use('/teacher/class', authenticateToken, authorizeRole('teacher'), teacherClassRoutes);
+app.use('/teacher/submissions', authenticateToken, authorizeRole('teacher'), teacherSubmissionRoutes);
 
 app.use('/assistant/users', assistantUserRoutes);
 
@@ -83,6 +79,7 @@ app.use((err, req, res, next) => {
 
 app.listen(PORT, () => {
   logger.info(`Server is running on port ${PORT}`);
+  logger.info(`The Secret Key is: ${SECRET_KEY}`);
   connect('2024').catch((error) => {
     logger.error(`Failed to connect to the default database: ${error.message}`);
   });
