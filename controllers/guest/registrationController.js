@@ -22,6 +22,20 @@ export const registerStudent = async (req, res) => {
     // Get the Student model for the current database connection
     const Student = getStudentModel(req.dbConnection);
 
+    // Check if the username or email already exists
+    const existingStudent = await Student.findOne({
+      $or: [{ username }, { email }],
+    });
+
+    if (existingStudent) {
+      if (existingStudent.username === username) {
+        return res.status(400).json({ message: 'Username already exists' });
+      }
+      if (existingStudent.email === email) {
+        return res.status(400).json({ message: 'Email already exists' });
+      }
+    }
+
     // Find the last student to generate the new studentId
     const lastStudent = await Student.findOne().sort({ _id: -1 });
 
@@ -72,9 +86,13 @@ export const registerStudent = async (req, res) => {
 
     // Check if the error is related to unique fields (e.g., email, username)
     if (error.code === 11000) {
-      return res
-        .status(400)
-        .json({ message: 'Email or Username already exists' });
+      const field = Object.keys(error.keyPattern)[0];
+      if (field === 'username') {
+        return res.status(400).json({ message: 'Username already exists' });
+      }
+      if (field === 'email') {
+        return res.status(400).json({ message: 'Email already exists' });
+      }
     }
 
     res.status(500).json({ error: 'Internal Server Error' });
