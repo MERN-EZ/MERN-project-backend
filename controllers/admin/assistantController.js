@@ -1,5 +1,4 @@
 // Handles the business logic for creating, retrieving, updating, and deleting assistants.
-
 import { getAssistantModel } from '../../models/assistantModel.js';
 import logger from '../../utils/logger.js';
 
@@ -25,7 +24,9 @@ export const getAllAssistants = async (req, res) => {
   logger.info('Retrieving all assistants');
   try {
     const Assistant = getAssistantModel(req.dbConnection);
-    const assistants = await Assistant.find();
+    const assistants = await Assistant.find({ assistantId: { $regex: '^A' } });
+    //const assistants = await Assistant.find();
+
     res.status(200).json(assistants);
   } catch (err) {
     logger.error('Error retrieving assistants:', err);
@@ -36,11 +37,14 @@ export const getAllAssistants = async (req, res) => {
 // Update an assistant by ID
 export const updateAssistant = async (req, res) => {
   logger.info('Updating an assistant');
+  // Log the request body to see what data is being sent
+  logger.info('Request body:', req.body);
+
   try {
     const Assistant = getAssistantModel(req.dbConnection);
     const assistant = await Assistant.findByIdAndUpdate(
       req.params.id,
-      { $set: req.body },  // Update the assistant with the request body data
+      { $set: req.body }, // Update the assistant with the request body data
       {
         new: true,
         runValidators: true,

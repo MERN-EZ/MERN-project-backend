@@ -12,14 +12,13 @@ const router = express.Router();
 
 // Route to create a new assistant
 router.post('/', createAssistant);
-
-// Route to get all assistants
+// Route to display all assistants
 router.get('/', getAllAssistants);
 
-// Route to update an assistant by ID
+// // Route to update an assistant by ID
 router.put('/:id', updateAssistant);
 
-// Route to delete an assistant by ID
+// // Route to delete an assistant by ID
 router.delete('/:id', deleteAssistant);
 
 export default router;

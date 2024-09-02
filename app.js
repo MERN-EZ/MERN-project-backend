@@ -71,6 +71,7 @@ app.use('/admin/studentRequests', studentRequestRoutes);
 //app.use('/student/requests', authenticateToken, authorizeRole('admin'), studentRequestRoutes);
 
 // Admin - Assistant routes
+// app.use('/admin/assistants', authenticateToken, authorizeRole('admin'), adminAssistantRoutes);
 app.use('/admin/assistants', adminAssistantRoutes);
 
 // Error handling middleware for 404 errors
