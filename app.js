@@ -9,6 +9,7 @@ import teacherClassRoutes from './routes/teacher/classRoutes.js';
 import teacherSubmissionRoutes from './routes/teacher/submissionRoutes.js';
 import teacherFeedbackRoutes from './routes/teacher/feedBackRoutes.js';
 import studentHomeworkRoutes from './routes/student/homeworkRoutes.js';
+import studentRequestRoutes from './routes/admin/studentRequestRoutes.js';
 import guestRegistrationRoutes from './routes/guest/registerRoutes.js';
 import classRoutes from './routes/guest/classRoutes.js';
 import assistantUserRoutes from './routes/assistant/userRoutes.js';
@@ -64,6 +65,10 @@ app.use('/teacher/submissions', authenticateToken, authorizeRole('teacher'), tea
 app.use('/teacher/feedback', authenticateToken, authorizeRole('teacher'), teacherFeedbackRoutes);
 
 app.use('/assistant/users', assistantUserRoutes);
+
+// Admin - Student Requests routes
+app.use('/admin/studentRequests', studentRequestRoutes);
+//app.use('/student/requests', authenticateToken, authorizeRole('admin'), studentRequestRoutes);
 
 // Admin - Assistant routes
 app.use('/admin/assistants', adminAssistantRoutes);

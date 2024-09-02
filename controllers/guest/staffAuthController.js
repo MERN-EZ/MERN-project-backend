@@ -39,6 +39,7 @@ export const loginStaff = async (req, res) => {
 export const registerStaff = async (req, res) => {
   logger.info('Register request received');
   const { username, password, role } = req.body;
+  console.log(req.body);
 
   try {
     const Staff = getUserModel(req.dbConnection);
@@ -52,11 +53,17 @@ export const registerStaff = async (req, res) => {
     let newStaffId;
     if (role === 'admin') {
       const lastAdmin = await Staff.findOne({ role: 'admin' }).sort({ _id: -1 });
-      const numberA = lastAdmin ? parseInt(lastAdmin.staffId.split('_')[1]) + 1 : 1;
+      console.log(lastAdmin);
+      const numberA = lastAdmin ? parseInt(lastAdmin.id.split('_')[1]) + 1 : 1;
+      console.log(numberA);
       newStaffId = `admin_${numberA.toString().padStart(2, '0')}`;
     } else {
       const lastTeacher = await Staff.findOne({ role: 'teacher' }).sort({ _id: -1 });
-      const numberT = lastTeacher ? parseInt(lastTeacher.staffId.split('_')[1]) + 1 : 1;
+      console.log(lastTeacher);
+      const TeacherLast = lastTeacher.id.split('_')[1];
+      console.log(TeacherLast);
+      const numberT = lastTeacher ? parseInt(TeacherLast) + 1 : 1;
+      console.log(numberT);
       newStaffId = `teacher_${numberT.toString().padStart(2, '0')}`;
     }
 
