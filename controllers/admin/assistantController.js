@@ -6,6 +6,8 @@ import logger from '../../utils/logger.js';
 export const createAssistant = async (req, res) => {
   logger.info('Creating a new assistant');
   try {
+    logger.info(`Req Body ${req.body}`);
+    
     const Assistant = getAssistantModel(req.dbConnection);
     const assistant = new Assistant(req.body);
 
@@ -24,8 +26,8 @@ export const getAllAssistants = async (req, res) => {
   logger.info('Retrieving all assistants');
   try {
     const Assistant = getAssistantModel(req.dbConnection);
-    const assistants = await Assistant.find({ assistantId: { $regex: '^A' } });
-    //const assistants = await Assistant.find();
+    const assistants = await Assistant.find();
+    logger.info(`Print all Assistants! ${assistants}`);
 
     res.status(200).json(assistants);
   } catch (err) {
