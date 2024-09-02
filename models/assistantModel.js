@@ -1,9 +1,7 @@
-// Defines the structure of the Assistant in MongoDB.
 import mongoose from 'mongoose';
 
 const { Schema } = mongoose;
 
-// Define the assistant schema
 const assistantSchema = new mongoose.Schema({
   assistantId: { type: String, required: true, unique: true },
   firstName: { type: String, required: true },
@@ -14,7 +12,6 @@ const assistantSchema = new mongoose.Schema({
   phoneNumber: { type: String, required: true, unique: true },
 });
 
-// Create the Assistant model
 export const getAssistantModel = (connection) => {
   return connection.model('Assistant', assistantSchema);
 };

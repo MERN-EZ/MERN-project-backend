@@ -24,7 +24,6 @@ export const loginStaff = async (req, res) => {
       return res.status(401).json({ message: 'Invalid credentials' });
     }
 
-    // Validate user credentials
     const user = { username: staff.username, role: staff.role };
     logger.info(`User ${username} validated`);
     const token = generateToken(user);
