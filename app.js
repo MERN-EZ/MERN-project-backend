@@ -6,6 +6,8 @@ import cors from 'cors';
 import teacherLessonRoutes from './routes/teacher/lessonRoutes.js';
 import teacherHomeworkRoutes from './routes/teacher/homeworkRoutes.js';
 import teacherClassRoutes from './routes/teacher/classRoutes.js';
+import teacherSubmissionRoutes from './routes/teacher/submissionRoutes.js';
+import teacherFeedbackRoutes from './routes/teacher/feedBackRoutes.js';
 import studentHomeworkRoutes from './routes/student/homeworkRoutes.js';
 import guestRegistrationRoutes from './routes/guest/registerRoutes.js';
 import classRoutes from './routes/guest/classRoutes.js';
@@ -14,7 +16,6 @@ import studentRoutes from './routes/student/studentRoutes.js';
 import authRoutes from './routes/guest/authRoutes.js';
 import adminAssistantRoutes from './routes/admin/assistantRoutes.js';
 import supportRoutes from './routes/student/supportRoutes.js';
-import teacherSubmissionRoutes from './routes/teacher/submissionRoutes.js';
 import { authenticateToken, authorizeRole } from './utils/authFunctions.js';
 import studentHomeRoutes from './routes/student/homeRoutes.js';
 
@@ -60,6 +61,7 @@ app.use('/teacher/lessons', authenticateToken, authorizeRole('teacher'), teacher
 app.use('/teacher/homework', authenticateToken, authorizeRole('teacher'), teacherHomeworkRoutes);
 app.use('/teacher/class', authenticateToken, authorizeRole('teacher'), teacherClassRoutes);
 app.use('/teacher/submissions', authenticateToken, authorizeRole('teacher'), teacherSubmissionRoutes);
+app.use('/teacher/feedback', authenticateToken, authorizeRole('teacher'), teacherFeedbackRoutes);
 
 app.use('/assistant/users', assistantUserRoutes);
 
