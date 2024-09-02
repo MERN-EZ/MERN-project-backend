@@ -9,6 +9,7 @@ import teacherClassRoutes from './routes/teacher/classRoutes.js';
 import teacherSubmissionRoutes from './routes/teacher/submissionRoutes.js';
 import teacherFeedbackRoutes from './routes/teacher/feedBackRoutes.js';
 import studentHomeworkRoutes from './routes/student/homeworkRoutes.js';
+import studentRequestRoutes from './routes/admin/studentRequestRoutes.js';
 import guestRegistrationRoutes from './routes/guest/registerRoutes.js';
 import classRoutes from './routes/guest/classRoutes.js';
 import assistantUserRoutes from './routes/assistant/userRoutes.js';
@@ -18,7 +19,6 @@ import adminAssistantRoutes from './routes/admin/assistantRoutes.js';
 import supportRoutes from './routes/student/supportRoutes.js';
 import { authenticateToken, authorizeRole } from './utils/authFunctions.js';
 import studentHomeRoutes from './routes/student/homeRoutes.js';
-
 
 const app = express();
 const PORT = process.env.PORT || '8090';
@@ -66,10 +66,12 @@ app.use('/teacher/feedback', authenticateToken, authorizeRole('teacher'), teache
 
 app.use('/assistant/users', assistantUserRoutes);
 
+// Admin - Student Requests routes
+app.use('/admin/studentRequests', studentRequestRoutes);
+//app.use('/student/requests', authenticateToken, authorizeRole('admin'), studentRequestRoutes);
+
 // Admin - Assistant routes
 app.use('/admin/assistants', adminAssistantRoutes);
-
-
 
 // Error handling middleware for 404 errors
 app.use((req, res, next) => {
