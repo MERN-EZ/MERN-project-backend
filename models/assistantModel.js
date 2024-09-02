@@ -6,6 +6,7 @@ const { Schema } = mongoose;
 // Define the assistant schema
 const assistantSchema = new mongoose.Schema({
   assistantId: { type: String, required: true, unique: true },
+  username: { type: String, required: true, unique: true },
   firstName: { type: String, required: true },
   lastName: { type: String, required: true },
   password: { type: String, required: true },

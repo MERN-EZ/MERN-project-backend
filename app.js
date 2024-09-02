@@ -2,7 +2,6 @@ import express from 'express';
 import { connect } from './utils/database.connection.js';
 import logger from './utils/logger.js';
 import cookieParser from 'cookie-parser';
-import jwt from 'jsonwebtoken';
 import cors from 'cors';
 import teacherLessonRoutes from './routes/teacher/lessonRoutes.js';
 import teacherHomeworkRoutes from './routes/teacher/homeworkRoutes.js';
@@ -16,6 +15,7 @@ import authRoutes from './routes/guest/authRoutes.js';
 import adminAssistantRoutes from './routes/admin/assistantRoutes.js';
 import supportRoutes from './routes/student/supportRoutes.js';
 import teacherSubmissionRoutes from './routes/teacher/submissionRoutes.js';
+import { authenticateToken, authorizeRole } from './utils/authFunctions.js';
 import studentHomeRoutes from './routes/student/homeRoutes.js';
 
 const app = express();
@@ -45,51 +45,21 @@ app.use(async (req, res, next) => {
   next();
 });
 
-function authenticateToken(req, res, next) {
-  const token = req.headers['authorization']?.split(' ')[1]; // Check both cookies and headers
-
-  if (!token) {
-    logger.error('Access Denied: No token provided');
-    return res.status(401).send('Access Denied');
-  }
-  jwt.verify(token, SECRET_KEY, (err, user) => {
-    if (err) {
-      logger.error('Invalid Token');
-      return res.status(403).send('Invalid Token');
-    }
-    logger.info("User's token is valid");
-    req.user = user; // Store user info in request object
-    next();
-  });
-}
-
-function authorizeRole(...roles) {
-  return (req, res, next) => {
-    if (req.user && roles.includes(req.user.role)) {
-      logger.info(roles);
-      logger.info(`User has role: ${req.user.role}`);
-      next(); // User has one of the required roles
-    } else {
-      logger.error(`User does not have access`);
-      res.status(403).send('Forbidden'); // User does not have access
-    }
-  };
-}
+app.use('/guest/register', guestRegistrationRoutes);
+app.use('/guest/classes', classRoutes);
+app.use('/guest/auth', authRoutes);
 
 app.use('/student/homeworks', authenticateToken, authorizeRole('student', 'teacher'), studentHomeworkRoutes);
-app.use('/student', authenticateToken, authorizeRole('student'), studentRoutes);
+app.use('/student/class', authenticateToken, authorizeRole('student'), studentHomeRoutes);
 app.use('/student/studentSupportPage', authenticateToken, authorizeRole('student'), supportRoutes);
+app.use('/student', authenticateToken, authorizeRole('student'), studentRoutes);
 
 //app.use('/student/users', studentRoutes);
 
 app.use('/teacher/lessons', authenticateToken, authorizeRole('teacher'), teacherLessonRoutes);
 app.use('/teacher/homework', authenticateToken, authorizeRole('teacher'), teacherHomeworkRoutes);
 app.use('/teacher/class', authenticateToken, authorizeRole('teacher'), teacherClassRoutes);
-app.use('/teacher/submissions', teacherSubmissionRoutes);
-
-app.use('/guest/register', guestRegistrationRoutes);
-app.use('/guest/classes', classRoutes);
-app.use('/guest/auth', authRoutes);
+app.use('/teacher/submissions', authenticateToken, authorizeRole('teacher'), teacherSubmissionRoutes);
 
 app.use('/assistant/users', assistantUserRoutes);
 

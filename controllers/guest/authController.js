@@ -1,12 +1,7 @@
 import { getStudentModel } from '../../models/studentModel.js';
 import bcrypt from 'bcryptjs';
 import logger from '../../utils/logger.js';
-import jwt from 'jsonwebtoken';
-const SECRET_KEY = process.env.SECRET_KEY;
-
-function generateToken(user) {
-  return jwt.sign({ id: user.id, role: user.role }, SECRET_KEY, { expiresIn: '1h' });
-}
+import { generateToken } from '../../utils/authFunctions.js';
 
 export const loginStudent = async (req, res) => {
   logger.info('Login request received');
@@ -33,12 +28,6 @@ export const loginStudent = async (req, res) => {
     if (!isMatch) {
       return res.status(401).json({ message: 'Invalid credentials' });
     }
-
-    //const batch = await getBatchInfoForStudent(student.studentId, dbConnection);
-
-    /* if (year !== student.studentId.split('_')[0]) {
-      return res.status(400).json({ message: 'Incorrect year for this user' });
-    } */
 
     const userDetails = {
       firstName: student.firstName,
