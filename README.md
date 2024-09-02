@@ -63,21 +63,68 @@ It provides endpoints for admins, teachers, students, assistants, and guests, ma
 ### Guest Routes
 1. POST /guest/register: Register a new guest.
 2. GET /guest/classes: Retrieve available classes.
-POST /guest/auth: Authenticate a guest user.
-### Student Routes
-GET /student/homeworks: Get homework assignments for students.
-GET /student/class: Get class details for students.
-GET /student/studentSupportPage: Access the support page.
-GET /student: Retrieve student details.
-### Teacher Routes
-GET /teacher/lessons: Retrieve lessons.
-GET /teacher/homework: Retrieve homework assignments.
-GET /teacher/class: Get class details.
-GET /teacher/submissions: Retrieve student submissions.
-GET /teacher/feedback: Retrieve feedback on lessons.
-### Assistant Routes
-GET /assistant/users: Retrieve assistant user details.
-### Admin Routes
-GET /admin/assistants: Manage assistant accounts.
-GET /admin/studentRequets: Manage student requests.
+3. POST /guest/auth: Authenticate a guest user.
 
+### Student Routes
+1. GET /student/homeworks: Get homework assignments for students.
+2. GET /student/class: Get class details for students.
+3. GET /student/studentSupportPage: Access the support page.
+4. GET /student: Retrieve student details.
+
+### Teacher Routes
+1. GET /teacher/lessons: Retrieve lessons.
+2. GET /teacher/homework: Retrieve homework assignments.
+3. GET /teacher/class: Get class details.
+4. GET /teacher/submissions: Retrieve student submissions.
+5. GET /teacher/feedback: Retrieve feedback on lessons.
+
+### Assistant Routes
+1. GET /assistant/users: Retrieve assistant user details.
+
+### Admin Routes
+1. GET /admin/assistants: Manage assistant accounts.
+2. GET /admin/studentRequets: Manage student requests.
+
+## Models
+Defines the structure of the Roles in MongoDB.
+1. SupportMessage
+2. Assistant 
+3. Class
+4. Student
+5. User
+
+## Routes
+
+### Teacher Routes
+1. routes/teacher/classRoutes.js: Routes for managing classes.
+2. routes/teacher/feedbackRoutes.js: Routes for managing feedback.
+3. routes/teacher/homeworkRoutes.js: Routes for managing homework.
+4. routes/teacher/lessonRoutes.js: Routes for managing lessons.
+5. routes/teacher/submissionRoutes.js: Routes for managing submissions.
+
+### Student Routes
+1. routes/student/homeRoutes.js: Routes for managing student home pages.
+2. routes/student/homeworkRoutes.js: Routes for managing student homework.
+3. routes/student/studentRoutes.js: Routes for managing student details.
+4. routes/student/supportRoutes.js: Routes for managing student support messages.
+
+### Guest Routes
+1. routes/guest/authRoutes.js: Routes for guest authentication.
+2. routes/guest/classRoutes.js: Routes for guest class details.
+3. routes/guest/registerRoutes.js: Routes for guest registration.
+
+### Assistant Routes
+1. routes/assistant/userRoutes.js: Routes for managing assistant users.
+
+### Admin Routes
+1. routes/admin/assistantRoutes.js: Routes for admin managing assistants.
+2. routes/admin/studentRequets.js: Routes for admin managing student requests.
+
+## Authentication
+Authentication is managed using JWT tokens. The authenticateToken middleware verifies the token and authorizeRole ensures the user has the necessary permissions.
+
+## Testing
+Add details on how to run tests, if applicable.
+
+## Deployment
+Add instructions for deploying the backend to a production environment.
