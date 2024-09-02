@@ -13,6 +13,7 @@ import authRoutes from './routes/guest/authRoutes.js';
 import adminAssistantRoutes from './routes/admin/assistantRoutes.js';
 import supportRoutes from './routes/student/supportRoutes.js';
 import teacherSubmissionRoutes from './routes/teacher/submissionRoutes.js';
+import studentHomeRoutes from './routes/student/homeRoutes.js';
 
 const app = express();
 const PORT = process.env.PORT || '8090';
@@ -51,6 +52,7 @@ app.use('/student/homeworks', studentHomeworkRoutes);
 app.use('/student', studentRoutes);
 // app.js
 app.use('/student/studentSupportPage', supportRoutes);
+app.use('/student/class' , studentHomeRoutes);
 
 //app.use('/student/users', studentRoutes);
 
