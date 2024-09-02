@@ -5,7 +5,6 @@ import { loginAssistant } from '../../controllers/guest/assistantAuthController.
 
 const router = express.Router();
 
-// Login route
 router.post('/login', loginStudent);
 router.post('/login/staff', loginStaff);
 router.post('/register/staff', registerStaff);

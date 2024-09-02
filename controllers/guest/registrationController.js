@@ -1,5 +1,5 @@
 import { getStudentModel } from '../../models/studentModel.js';
-import { getAttendanceModel } from '../../models/attendanceModel.js';
+//import { getAttendanceModel } from '../../models/attendanceModel.js';
 import logger from '../../utils/logger.js';
 import bcrypt from 'bcryptjs';
 
@@ -27,13 +27,15 @@ export const registerStudent = async (req, res) => {
     }
 
     const lastStudent = await Student.findOne().sort({ _id: -1 });
-
+    logger.info(`last student: ${lastStudent}`);
     const year = db;
     const newStudentId = lastStudent
       ? `${year}_${(parseInt(lastStudent.studentId.split('_')[1]) + 1).toString().padStart(4, '0')}`
       : `${year}_0001`;
 
     const hashedPassword = await bcrypt.hash(password, 10);
+
+    logger.info(`New student id: ${newStudentId}`);
 
     const newStudent = new Student({
       firstName,
@@ -49,14 +51,14 @@ export const registerStudent = async (req, res) => {
 
     await newStudent.save();
 
-    const Attendance = getAttendanceModel(req.dbConnection);
+    /* const Attendance = getAttendanceModel(req.dbConnection);
     const newAttendance = new Attendance({
       studentId: newStudentId,
       firstName,
       lastName,
       attendance: {},
     });
-    await newAttendance.save();
+    await newAttendance.save(); */
 
     logger.info(`New student registered: ${username}`);
     res.status(201).json({ message: 'Student registered successfully!' });

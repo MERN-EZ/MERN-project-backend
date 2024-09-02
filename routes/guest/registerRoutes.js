@@ -4,7 +4,6 @@ import logger from '../../utils/logger.js';
 
 const router = express.Router();
 
-// Log incoming requests to this route
 router.use((req, res, next) => {
   logger.info('POST /guest/register route middleware');
   logger.info('Request headers:', { headers: req.headers });
@@ -12,7 +11,6 @@ router.use((req, res, next) => {
   next();
 });
 
-// Route handler
 router.post('/', async (req, res) => {
   logger.info('POST /guest/register route handler');
   try {
