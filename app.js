@@ -49,7 +49,7 @@ app.use('/guest/register', guestRegistrationRoutes);
 app.use('/guest/classes', classRoutes);
 app.use('/guest/auth', authRoutes);
 
-app.use('/student/homeworks', authenticateToken, authorizeRole('student', 'teacher'), studentHomeworkRoutes);
+app.use('/student/homeworks', authenticateToken, authorizeRole('student'), studentHomeworkRoutes);
 app.use('/student/class', authenticateToken, authorizeRole('student'), studentHomeRoutes);
 app.use('/student/studentSupportPage', authenticateToken, authorizeRole('student'), supportRoutes);
 app.use('/student', authenticateToken, authorizeRole('student'), studentRoutes);
