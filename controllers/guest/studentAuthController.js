@@ -41,7 +41,6 @@ export const loginStudent = async (req, res) => {
     };
     logger.info(`User ${username} logged in successfully. UserDetails: ${JSON.stringify(userDetails)}`);
 
-    // Validate user credentials
     const user = { username: student.username, role: 'student' };
     logger.info(`User ${username} validated`);
     const token = generateToken(user);
