@@ -62,6 +62,7 @@ app.use('/guest/auth', authRoutes);
 app.use('/assistant/users', assistantUserRoutes);
 
 // Admin - Assistant routes
+// app.use('/admin/assistants', authenticateToken, authorizeRole('admin'), adminAssistantRoutes);
 app.use('/admin/assistants', adminAssistantRoutes);
 
 // Error handling middleware for 404 errors
