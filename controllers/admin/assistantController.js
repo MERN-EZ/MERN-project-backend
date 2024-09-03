@@ -1,4 +1,4 @@
-// Handles the business logic for creating, retrieving, updating, and deleting assistants.
+// Controller functions for creating, retrieving, updating, and deleting assistants.
 import { getAssistantModel } from '../../models/assistantModel.js';
 import logger from '../../utils/logger.js';
 
