@@ -68,7 +68,7 @@ app.use('/assistant/users', assistantUserRoutes);
 
 // Admin - Student Requests routes
 app.use('/admin/studentRequests', studentRequestRoutes);
-//app.use('/student/requests', authenticateToken, authorizeRole('admin'), studentRequestRoutes);
+//app.use('/admin/studentRequests', authenticateToken, authorizeRole('admin'), studentRequestRoutes);
 
 // Admin - Assistant routes
 // app.use('/admin/assistants', authenticateToken, authorizeRole('admin'), adminAssistantRoutes);

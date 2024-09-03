@@ -6,8 +6,10 @@ import logger from '../../utils/logger.js';
 export const createAssistant = async (req, res) => {
   console.log('Creating a new assistant');
   try {
+    // Extract data from the request body
     const { assistantId, firstName, lastName, username, password, email, phoneNumber } = req.body;
 
+    // Log extracted data for debugging
     console.log('assistantId:', assistantId);
     console.log('firstName:', firstName);
     console.log('lastName:', lastName);
@@ -16,33 +18,34 @@ export const createAssistant = async (req, res) => {
     console.log('email:', email);
     console.log('phoneNumber:', phoneNumber);
 
+    // Get the Assistant model based on the current database connection
     const Assistant = getAssistantModel(req.dbConnection);
-
-    // Check if assistantId already exists
+ 
+    // Check if assistantId already exists in the database
     const existingAssistantId = await Assistant.findOne({ assistantId });
     if (existingAssistantId) {
       return res.status(400).json({ error: 'Validation Error', message: 'assistantId must be unique' });
     }
 
-    // Check if username already exists
+    // Check if username already exists in the database
     const existingUsername = await Assistant.findOne({ username });
     if (existingUsername) {
       return res.status(400).json({ error: 'Validation Error', message: 'username must be unique' });
     }
 
-    // Check if email already exists
+    // Check if email already exists in the database
     const existingEmail = await Assistant.findOne({ email });
     if (existingEmail) {
       return res.status(400).json({ error: 'Validation Error', message: 'email must be unique' });
     }
 
-    // Check if phoneNumber already exists
+    // Check if phoneNumber already exists in the database
     const existingPhoneNumber = await Assistant.findOne({ phoneNumber });
     if (existingPhoneNumber) {
       return res.status(400).json({ error: 'Validation Error', message: 'phoneNumber must be unique' });
     }
 
-    // Create a new Assistant document
+    // Create a new Assistant record with the request body data
     const assistant = new Assistant(req.body);
     console.log(`Assistant ${assistant}`);
 
@@ -69,11 +72,11 @@ export const createAssistant = async (req, res) => {
 export const getAllAssistants = async (req, res) => {
   console.log('Retrieving all assistants');
   try {
+    // Get the Assistant model based on the current database connection
     const Assistant = getAssistantModel(req.dbConnection);
-    const assistants = await Assistant.find();
-    // console.log(`Print all Assistants! ${assistants}`);
+    const assistants = await Assistant.find(); // Retrieve all assistants
     console.log('Assistants retrieved successfully');
-    res.status(200).json(assistants);
+    res.status(200).json(assistants); // Return the list of assistants
   } catch (err) {
     logger.error('Error retrieving assistants:', err);
     res.status(500).json({ error: err.message });
@@ -83,25 +86,25 @@ export const getAllAssistants = async (req, res) => {
 // Update an assistant by ID
 export const updateAssistant = async (req, res) => {
   console.log('Updating an assistant');
-  // Log the request body to see what data is being sent
   console.log(`Request body:  ${req.body}`);
 
   try {
+    // Get the Assistant model based on the current database connection
     const Assistant = getAssistantModel(req.dbConnection);
     const assistant = await Assistant.findByIdAndUpdate(
-      req.params.id,
+      req.params.id, // Find assistant by ID
       { $set: req.body }, // Update the assistant with the request body data
       {
-        new: true,
+        new: true, // Return the updated record
         runValidators: true,
       }
     );
     console.log(`Updated Assistant: ${assistant}`);
     if (!assistant) {
-      return res.status(404).json({ error: 'Assistant not found' });
+      return res.status(404).json({ error: 'Assistant not found' }); // Return an error if assistant is not found
     }
     console.log('Assistant updated successfully');
-    res.status(200).json(assistant);
+    res.status(200).json(assistant); // Return the updated assistant
   } catch (err) {
     logger.error('Error updating assistant:', err);
     res.status(400).json({ error: err.message });
@@ -112,14 +115,15 @@ export const updateAssistant = async (req, res) => {
 export const deleteAssistant = async (req, res) => {
   console.log('Deleting an assistant');
   try {
+    // Get the Assistant model based on the current database connection
     const Assistant = getAssistantModel(req.dbConnection);
-    const deletedAssistant = await Assistant.findByIdAndDelete(req.params.id);
+    const deletedAssistant = await Assistant.findByIdAndDelete(req.params.id); // Find and delete the assistant by ID
 
     if (!deletedAssistant) {
-      return res.status(404).json({ error: 'Assistant not found' });
+      return res.status(404).json({ error: 'Assistant not found' }); // Return an error if assistant is not found
     }
     console.log('Assistant deleted successfully');
-    res.status(200).json({ message: 'Assistant deleted successfully' });
+    res.status(200).json({ message: 'Assistant deleted successfully' }); // Confirm deletion
   } catch (err) {
     logger.error('Error deleting assistant:', err);
     res.status(500).json({ error: err.message });
