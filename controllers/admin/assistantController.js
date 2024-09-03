@@ -1,4 +1,5 @@
 // Controller functions for creating, retrieving, updating, and deleting assistants.
+
 import { getAssistantModel } from '../../models/assistantModel.js';
 import logger from '../../utils/logger.js';
 
@@ -68,7 +69,7 @@ export const createAssistant = async (req, res) => {
   }
 };
 
-// Get all assistants
+// Get all Assistants
 export const getAllAssistants = async (req, res) => {
   console.log('Retrieving all assistants');
   try {
