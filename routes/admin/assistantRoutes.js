@@ -13,7 +13,7 @@ const router = express.Router();
 // Route to create a new assistant
 router.post('/', createAssistant);
 
-// Route to get all assistants
+// Route to display all assistants
 router.get('/', getAllAssistants);
 
 // Route to update an assistant by ID

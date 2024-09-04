@@ -1,7 +1,9 @@
-import express from "express";
-import { getStudentById} from "../../controllers/student/profileController.js";
+import express from 'express';
+import { updateStudentProfile, deleteStudentProfile  } from '../../controllers/student/profileController.js';
 
 const router = express.Router();
 
-router.get("/:id", getStudentById);
+router.delete('/delete-profile', deleteStudentProfile);
+router.put('/edit-profile', updateStudentProfile); 
+
 export default router;
