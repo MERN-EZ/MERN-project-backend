@@ -100,8 +100,8 @@ The following middleware functions are used in this project:
 
 ### Admin Routes
 
-1. /admin/assistants: Manage assistant accounts.
-2. /admin/studentRequets: Manage student requests.
+1. /admin/studentRequests: Manage student requests.
+2. /admin/assistants: Manage assistant accounts.
 
 ## Models
 
