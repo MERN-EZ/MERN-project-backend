@@ -99,13 +99,13 @@ It provides endpoints for admins, teachers, students, assistants, and guests, ma
 
 Below are the middleware functions used in this project:
 
-# Custom Middleware:
+### Custom Middleware:
 
 - **`authenticateToken`**: Verifies the JWT token and ensures the user is authenticated.
 - **`authorizeRole`**: Checks the user's role and ensures they have the necessary permissions to access a route.
 - **`logger`**: Logs incoming requests and errors for easier debugging and monitoring.
 
-# Third-Party Middleware:
+### Third-Party Middleware:
 
 - **`express.json()`**: Parses incoming JSON requests and makes the data available in req.body.
 - **`express.urlencoded({ extended: true })`**: Parses URL-encoded data from forms and makes it available in req.body.
