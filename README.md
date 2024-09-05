@@ -53,10 +53,16 @@ It provides endpoints for admins, teachers, students, assistants, and guests, ma
    PORT=5000
    ```
 
-4. **Start the development server**:
-   ```sh
-   npm start
+4. **Start the server**:
+
+- **Production server**:
+  ```sh
+  npm start
    ```
+- **Development server with Nodemon** (auto-restart on file changes)
+  ```sh
+  npm run dev
+  ```
 
 ## Middleware
 
