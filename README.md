@@ -75,33 +75,33 @@ The following middleware functions are used in this project:
 
 ### Guest Routes
 
-1. POST /guest/register: Register a new guest.
-2. GET /guest/classes: Retrieve available classes.
-3. POST /guest/auth: Authenticate a guest user.
+1. /guest/register: Register a new guest.
+2. /guest/classes: Retrieve available classes.
+3. /guest/auth: Authenticate a guest user.
 
 ### Student Routes
 
-1. GET /student/homeworks: Get homework assignments for students.
-2. GET /student/class: Get class details for students.
-3. GET /student/studentSupportPage: Access the support page.
-4. GET /student: Retrieve student details.
+1. /student/homeworks: Get homework assignments for students.
+2. /student/class: Get class details for students.
+3. /student/studentSupportPage: Access the support page.
+4. /student: Retrieve student details.
 
 ### Teacher Routes
 
-1. GET /teacher/lessons: Retrieve lessons.
-2. GET /teacher/homework: Retrieve homework assignments.
-3. GET /teacher/class: Get class details.
-4. GET /teacher/submissions: Retrieve student submissions.
-5. GET /teacher/feedback: Retrieve feedback on lessons.
+1. /teacher/lessons: Manages lesson creation, reading, updating, and deletion 
+2. /teacher/homework: Allows teachers to create, update, delete, and retrieve homework assignments 
+3. /teacher/class: Retrieves class details for teachers 
+4. /teacher/submissions: Enables teachers to view homework submissions from students 
+5. /teacher/feedback: Allows teachers to view and delete feedback on lessons
 
 ### Assistant Routes
 
-1. GET /assistant/users: Retrieve assistant user details.
+1. /assistant/users: Retrieve assistant user details.
 
 ### Admin Routes
 
-1. GET /admin/assistants: Manage assistant accounts.
-2. GET /admin/studentRequets: Manage student requests.
+1. /admin/assistants: Manage assistant accounts.
+2. /admin/studentRequets: Manage student requests.
 
 ## Models
 
