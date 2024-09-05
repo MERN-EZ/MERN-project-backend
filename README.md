@@ -128,8 +128,8 @@ Defines the structure of the Roles in MongoDB.
 
 Authentication is managed using JWT tokens. The authenticateToken middleware verifies the token and authorizeRole ensures the user has the necessary permissions.
 
-## Conclusion
+## End Notes
 
-The InfoTech backend is the backbone of the educational platform, ensuring secure and efficient management of user data, role-based access control, and seamless integration with MongoDB databases. With robust API endpoints and middleware for authentication and authorization, the backend is designed to handle the complex needs of an educational environment.
+The InfoTech backend is the backbone of the educational platform, ensuring secure and efficient management of user data, role-based access control, and seamless integration with MongoDB databases. With clear API endpoints and middleware for authentication and authorization, the backend is designed to handle the complex needs of an educational environment.
 
 
