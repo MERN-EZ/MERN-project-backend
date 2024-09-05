@@ -63,14 +63,6 @@ It provides endpoints for admins, teachers, students, assistants, and guests, ma
   ```sh
   npm run dev
   ```
-
-## Middleware
-
-The following middleware functions are used in this project:
-
-- **`authenticateToken`**: Verifies the JWT token and ensures the user is authenticated.
-- **`authorizeRole`**: Checks the user's role and ensures they have the necessary permissions to access a route.
-- **`logger.js`**: Logs all incoming requests and errors using `pino` for easier debugging and monitoring.
 ## API Endpoints
 
 ### Guest Routes
@@ -100,8 +92,25 @@ The following middleware functions are used in this project:
 
 ### Admin Routes
 
-1. /admin/assistants: Manage assistant accounts.
-2. /admin/studentRequets: Manage student requests.
+1. /admin/studentRequests: Manage student requests.
+2. /admin/assistants: Manage assistant accounts.
+
+## Middleware
+
+Below are the middleware functions used in this project:
+
+# Custom Middleware:
+
+- **`authenticateToken`**: Verifies the JWT token and ensures the user is authenticated.
+- **`authorizeRole`**: Checks the user's role and ensures they have the necessary permissions to access a route.
+- **`logger`**: Logs incoming requests and errors for easier debugging and monitoring.
+
+# Third-Party Middleware:
+
+- **`express.json()`**: Parses incoming JSON requests and makes the data available in req.body.
+- **`express.urlencoded({ extended: true })`**: Parses URL-encoded data from forms and makes it available in req.body.
+- **`cookieParser()`**: Parses cookies attached to the client request object.
+- **`cors()`**: Enables Cross-Origin Resource Sharing, allowing your API to be accessed from other domains.
 
 ## Models
 
