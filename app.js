@@ -67,12 +67,8 @@ app.use('/teacher/feedback', authenticateToken, authorizeRole('teacher'), teache
 app.use('/assistant/users', assistantUserRoutes);
 
 // Admin routes
-
-//app.use('/admin/studentRequests', authenticateToken, authorizeRole('admin'), studentRequestRoutes);
-// app.use('/admin/assistants', authenticateToken, authorizeRole('admin'), adminAssistantRoutes);
-
-app.use('/admin/studentRequests', studentRequestRoutes);
-app.use('/admin/assistants', adminAssistantRoutes);
+app.use('/admin/studentRequests', authenticateToken, authorizeRole('admin'), studentRequestRoutes);
+app.use('/admin/assistants', authenticateToken, authorizeRole('admin'), adminAssistantRoutes);
 
 // Error handling middleware for 404 errors
 app.use((req, res, next) => {
