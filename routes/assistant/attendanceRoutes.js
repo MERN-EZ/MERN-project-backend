@@ -7,8 +7,8 @@ const router = express.Router();
 
 router.post('/', createAttendanceRecord);
 router.put('/', updateAssistant);
+router.put('/edit', updateAttendance);
 router.put('/attendance', updateAttendance);
 router.get('/:searchId', getAttendance);
-router.put('/attendance/edit', updateAttendance);
 
 export default router;
