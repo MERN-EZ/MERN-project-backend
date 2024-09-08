@@ -2,7 +2,6 @@ import mongoose from 'mongoose';
 
 const attendanceSchema = new mongoose.Schema({
   studentId: { type: String, required: true },
-  username: { type: String, required: true },
   date: { type: String, required: true },
   status: {
     type: String,
