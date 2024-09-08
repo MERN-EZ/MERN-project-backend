@@ -3,25 +3,33 @@ import logger from '../../utils/logger.js';
 
 export const createAttendanceRecord = async (req, res) => {
   logger.info('Creating a new attendance record');
-  // logger.info(req.body);
   try {
     const Attendance = getAttendanceModel(req.dbConnection);
 
-    // Create a new attendance record using the request body
+    // Validate the received data
+    const { studentId, date, status } = req.body;
+
+    if (!studentId || typeof studentId !== 'string') {
+      return res.status(400).json({ error: 'Invalid studentId. It must be a non-empty string.' });
+    }
+    if (!date || typeof date !== date) {
+      return res.status(400).json({ error: 'Invalid date. It must be a non-empty string.' });
+    }
+    if (!status || !['Present', 'Absent'].includes(status)) {
+      return res.status(400).json({ error: 'Invalid status. It must be either "Present" or "Absent".' });
+    }
+
     const attendanceRecord = new Attendance(req.body);
-
-    // Save the attendance record to the database
     await attendanceRecord.save();
-
     logger.info('Attendance record created successfully');
-
-    // Send a success response with the created record
     res.status(201).json(attendanceRecord);
   } catch (err) {
     logger.error('Error creating attendance record:', err);
-
-    // Send an error response with the error message
-    res.status(400).json({ error: err.message });
+    if (err.name === 'ValidationError') {
+      res.status(400).json({ error: 'Validation Error' });
+    } else {
+      res.status(400).json({ error: err.message });
+    }
   }
 };
 
@@ -58,9 +66,10 @@ export const getAttendance = async (req, res) => {
     const Attendance = getAttendanceModel(req.dbConnection); // Assuming you have an attendance model
     const id = req.params.searchId;
     logger.info(`StudentId is ${id}`);
-    res.status(200).json({ message: 'getting attendance' });
+    const attendanceRecords = await Attendance.find({ studentId: id });
+    res.status(200).json(attendanceRecords);
   } catch (err) {
-    logger.error('Error updating attendance:', err);
+    logger.error('Error getting attendance:', err);
     res.status(400).json({ error: err.message });
   }
 };
