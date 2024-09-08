@@ -33,7 +33,7 @@ export const getHomeWorks = async (req, res) => {
     ]);
 
     if (result.length === 0) {
-      return res.status(404).send({ error: 'No homework found' });
+      return res.json({ message: 'No homework found' });
     }
 
     // Send the aggregated homework data
