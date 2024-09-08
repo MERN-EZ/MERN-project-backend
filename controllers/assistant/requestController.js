@@ -7,13 +7,12 @@ export const getAllStudentDetails = async (req, res) => {
   try {
     const Attendance = getAttendanceModel(req.dbConnection);
     const Student = getStudentModel(req.dbConnection);
-    // console.log(Attendance);
-    // console.log(Student);
-    logger.info('Hii you are here');
 
     // Fetch student details from the Student collection
-    const students = await Student.find({}, 'studentId firstName lastName');
-    logger.info(students);
+    const students = await Student.find(
+      {},
+      'studentId firstName lastName year'
+    );
 
     // Map student data with their attendance records
     const studentDetails = await Promise.all(
@@ -25,14 +24,15 @@ export const getAllStudentDetails = async (req, res) => {
           studentId: student.studentId,
           firstName: student.firstName,
           lastName: student.lastName,
-          attendance: attendanceRecord ? attendanceRecord.attendance : null,
+          year: student.year,
+          attendance: attendanceRecord
+            ? attendanceRecord.attendance.get('date') === 'Present'
+            : false,
         };
       })
     );
 
-    // logger.info(studentDetails);
-    // res.status(200).json(studentDetails);
-    res.status(200).json({ success: 'message' });
+    res.status(200).json(studentDetails);
   } catch (err) {
     logger.error('Error getting student details:', err);
     res.status(400).json({ error: err.message });
