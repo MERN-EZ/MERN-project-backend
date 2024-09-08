@@ -32,8 +32,9 @@ export const updateAttendance = async (req, res) => {
     const { studentID, date, attendance } = req.body;
     console.log('Body data', req.body);
 
-    const isExist = await Attendance({ studentId: studentID, date: date });
+    const isExist = await Attendance.findOne({ studentId: studentID, date: date });
     if (!isExist) {
+      logger.error('Attendance record not found');
       return res.status(404).json({ error: 'Attendance record not found' });
     }
     const updatedAttendance = await Attendance.findOneAndUpdate(
