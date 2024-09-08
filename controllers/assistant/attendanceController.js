@@ -32,10 +32,12 @@ export const updateAttendance = async (req, res) => {
     const { studentID, date, attendance } = req.body;
     console.log('Body data', req.body);
 
-    const isExist = await Attendance({ studentId: studentID, date: date });
-    if (!isExist) {
+    const existingRecord = await Attendance.findOne({ studentId: studentID, date: date });
+    if (!existingRecord) {
+      console.log('Attendance record not found');
       return res.status(404).json({ error: 'Attendance record not found' });
     }
+
     const updatedAttendance = await Attendance.findOneAndUpdate(
       { studentId: studentID, date: date },
       { $set: { status: attendance } },
@@ -44,10 +46,6 @@ export const updateAttendance = async (req, res) => {
         runValidators: true,
       }
     );
-
-    if (!updatedAttendance) {
-      return res.status(404).json({ error: 'Attendance record not found' });
-    }
 
     logger.info('Attendance updated successfully');
     res.status(200).json({ message: updatedAttendance });
@@ -71,22 +69,26 @@ export const getAttendance = async (req, res) => {
   }
 };
 
-export const deleteAttendanceById = async (req, res) => {
-  logger.info('Deleting attendance record');
+export const deleteAttendance = async (req, res) => {
+  logger.info('Deleting attendance record by ID and Date');
   try {
     const Attendance = getAttendanceModel(req.dbConnection);
-    const { id } = req.params;
-
-    const deletedAttendance = await Attendance.findByIdAndDelete(id);
-
-    if (!deletedAttendance) {
+    const { id, date } = req.params;
+    
+    // Find the attendance record by ID and date
+    const attendanceRecord = await Attendance.findOne({ _id: id, date: date });
+    
+    if (!attendanceRecord) {
       return res.status(404).json({ error: 'Attendance record not found' });
     }
-
+    
+    // Delete the record
+    await Attendance.deleteOne({ _id: id, date: date });
+    
     logger.info('Attendance record deleted successfully');
     res.status(200).json({ message: 'Attendance record deleted successfully' });
-  } catch (err) {
-    logger.error('Error deleting attendance record:', err);
-    res.status(400).json({ error: err.message });
+  } catch (error) {
+    logger.error('Error deleting attendance record:', error);
+    res.status(500).json({ error: 'Internal Server Error' });
   }
 };
