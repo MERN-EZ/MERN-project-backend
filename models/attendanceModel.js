@@ -1,16 +1,16 @@
 import mongoose from 'mongoose';
 
-const userSchema = new mongoose.Schema({
-  studentId: { type: String, unique: true, required: true },
-  firstName: { type: String, required: true },
-  lastName: { type: String, required: true },
-  attendance: {
-    type: Map,
-    of: String,
-    required: true,
+const attendanceSchema = new mongoose.Schema({
+  studentId: { type: String, required: true },
+  username: { type: String, required: true },
+  date: { type: String, required: true },
+  status: {
+    type: String,
+    enum: ['Present', 'Absent'],
+    default: 'Present',
   },
 });
 
 export const getAttendanceModel = (connection) => {
-  return connection.model('attendance', userSchema);
+  return connection.model('attendance', attendanceSchema);
 };

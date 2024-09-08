@@ -19,6 +19,7 @@ import adminAssistantRoutes from './routes/admin/assistantRoutes.js';
 import supportRoutes from './routes/student/supportRoutes.js';
 import { authenticateToken, authorizeRole } from './utils/authFunctions.js';
 import studentHomeRoutes from './routes/student/homeRoutes.js';
+import attendanceRoutes from './routes/assistant/attendanceRoutes.js';
 
 const app = express();
 const PORT = process.env.PORT || '8090';
@@ -65,6 +66,7 @@ app.use('/teacher/submissions', authenticateToken, authorizeRole('teacher'), tea
 app.use('/teacher/feedback', authenticateToken, authorizeRole('teacher'), teacherFeedbackRoutes);
 
 app.use('/assistant/users', assistantUserRoutes);
+app.use('/assistant/attendance', attendanceRoutes);
 
 // Admin routes
 app.use('/admin/studentRequests', authenticateToken, authorizeRole('admin'), studentRequestRoutes);
