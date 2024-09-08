@@ -2,7 +2,6 @@ import express from 'express';
 import {
   createLesson,
   getAllLessons,
-  // getLessonById,
   updateLesson,
   deleteLesson,
 } from '../../controllers/teacher/lessonController.js';

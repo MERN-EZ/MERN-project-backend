@@ -9,7 +9,6 @@ export const addHomework = async (req, res) => {
     if (!lesson) {
       return res.status(404).json({ error: 'Lesson not found' });
     }
-    // Ensure reminders is an array of strings
     if (req.body.reminders && typeof req.body.reminders === 'object') {
       // req.body.reminders = Object.values(req.body.reminders);
     }
@@ -17,7 +16,6 @@ export const addHomework = async (req, res) => {
     console.log(req.body);
     console.log(req.body.reminders);
     console.log(lesson.homework.length);
-    // Create a new homework object
     const highestLessonId = lesson.homework.reduce((maxId, homework) => {
       return homework.id > maxId ? homework.id : maxId;
     }, 0);
@@ -30,7 +28,6 @@ export const addHomework = async (req, res) => {
       reminders: req.body.reminders || [],
     };
 
-    // Add the new homework to the lesson
     lesson.homework.push(newHomework);
 
     await lesson.save();

@@ -47,9 +47,6 @@ const lessonSchema = new Schema({
   homework: { type: [homeworkSchema], required: false },
 });
 
-// Create the Lesson model
-// const Lesson = mongoose.model("Lesson", lessonSchema);
-// export default Lesson;
 export const getLessonModel = (connection) => {
   return connection.model('Lesson', lessonSchema);
 };

@@ -30,7 +30,7 @@ const connect = async (dbName = 2024) => {
     logger.error(
       `Failed to connect to the database ${dbName}: ${error.message}`
     );
-    throw error; // Rethrow the error to be handled by the caller
+    throw error; 
   }
 };
 
