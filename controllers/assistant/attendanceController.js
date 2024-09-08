@@ -37,19 +37,23 @@ export const createAttendanceRecord = async (req, res) => {
 export const updateAttendance = async (req, res) => {
   logger.info('Updating attendance for a student');
   try {
-    const Attendance = getAttendanceModel(req.dbConnection); // Assuming you have an attendance model
-    const updatedAttendance = await Attendance.findByIdAndUpdate(
-      req.params.id, // The student ID provided as a parameter in the request
-      { $set: { attendance: req.body.attendance } }, // Update attendance status (boolean or string)
+    const Attendance = getAttendanceModel(req.dbConnection); // Get the attendance model
+    const { studentID, date, attendance } = req.body; // Destructure the required fields from the body
+    console.log('Body data' , req.body);
+
+    // Find and update the attendance record
+    const updatedAttendance = await Attendance.findOneAndUpdate(
+      { studentId: studentID, date: date }, // Use both studentID and date to find the record
+      { $set: { status: attendance } }, // Update the status field
       {
         new: true, // Return the newly updated document
         runValidators: true, // Run schema validators
       }
     );
 
-    // Check if the student attendance record exists
+    // Check if the attendance record was found and updated
     if (!updatedAttendance) {
-      return res.status(404).json({ error: 'Student attendance record not found' });
+      return res.status(404).json({ error: 'Attendance record not found' });
     }
 
     logger.info('Attendance updated successfully');
