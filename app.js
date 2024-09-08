@@ -32,7 +32,7 @@ app.use(cookieParser());
 app.use(
   cors({
     origin: '*',
-    credentials: true, 
+    credentials: true,
     methods: 'GET,POST,PUT,DELETE,OPTIONS',
     allowedHeaders: 'Origin,X-Requested-With,Content-Type,Accept,db-name,Authorization',
   })
@@ -63,8 +63,8 @@ app.use('/teacher/class', authenticateToken, authorizeRole('teacher'), teacherCl
 app.use('/teacher/submissions', authenticateToken, authorizeRole('teacher'), teacherSubmissionRoutes);
 app.use('/teacher/feedback', authenticateToken, authorizeRole('teacher'), teacherFeedbackRoutes);
 
-app.use('/assistant/users', assistantUserRoutes);
-app.use('/assistant/attendance', attendanceRoutes);
+app.use('/assistant/users', authenticateToken, authorizeRole('assistant'), assistantUserRoutes);
+app.use('/assistant/attendance', authenticateToken, authorizeRole('assistant'), attendanceRoutes);
 
 app.use('/admin/studentRequests', authenticateToken, authorizeRole('admin'), studentRequestRoutes);
 app.use('/admin/assistants', authenticateToken, authorizeRole('admin'), adminAssistantRoutes);

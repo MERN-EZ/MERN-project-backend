@@ -61,7 +61,7 @@ export const getAttendance = async (req, res) => {
     const Attendance = getAttendanceModel(req.dbConnection);
     const id = req.params.searchId;
     logger.info(`StudentId is ${id}`);
-    const attendanceRecords = await Attendance.find({ studentId: id });
+    const attendanceRecords = await Attendance.find({ studentId: id }).sort({ date: 1 });
     res.status(200).json(attendanceRecords);
   } catch (err) {
     logger.error('Error getting attendance:', err);
@@ -77,14 +77,13 @@ export const deleteAttendance = async (req, res) => {
 
     logger.info(`StudentId is ${id}`);
     logger.info(`Date is ${date}`);
-    // Find the attendance record by ID and date
+
     const attendanceRecord = await Attendance.findOne({ studentId: id, date: date });
     logger.info(`Attendance record is ${attendanceRecord}`);
     if (!attendanceRecord) {
       return res.status(404).json({ error: 'Attendance record not found' });
     }
 
-    // Delete the record
     await Attendance.deleteOne({ studentId: id, date: date });
 
     logger.info('Attendance record deleted successfully');
