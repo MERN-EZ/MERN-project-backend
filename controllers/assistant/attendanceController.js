@@ -53,10 +53,11 @@ export const updateAttendance = async (req, res) => {
 };
 
 export const getAttendance = async (req, res) => {
-  logger.info('Updating attendance for a student');
+  logger.info('Getting attendance for a student');
   try {
     const Attendance = getAttendanceModel(req.dbConnection); // Assuming you have an attendance model
-
+    const id = req.params.searchId;
+    logger.info(`StudentId is ${id}`);
     res.status(200).json({ message: 'getting attendance' });
   } catch (err) {
     logger.error('Error updating attendance:', err);
