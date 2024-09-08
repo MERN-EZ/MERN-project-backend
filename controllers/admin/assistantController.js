@@ -2,6 +2,8 @@
 
 import { getAssistantModel } from '../../models/assistantModel.js';
 import logger from '../../utils/logger.js';
+import bcrypt from 'bcryptjs';
+
 
 // Create a new assistant
 export const createAssistant = async (req, res) => {
@@ -46,8 +48,19 @@ export const createAssistant = async (req, res) => {
       return res.status(400).json({ error: 'Validation Error', message: 'phoneNumber must be unique' });
     }
 
+    const hashedPassword = await bcrypt.hash(password, 10);
+
     // Create a new Assistant record with the request body data
-    const assistant = new Assistant(req.body);
+    const assistant = new Assistant({
+      assistantId,
+      firstName,
+      lastName,
+      username,
+      password: hashedPassword, // Store the hashed password
+      email,
+      phoneNumber
+    });
+
     console.log(`Assistant ${assistant}`);
 
     // Save the assistant to the database
