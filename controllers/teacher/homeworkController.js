@@ -9,9 +9,7 @@ export const addHomework = async (req, res) => {
     if (!lesson) {
       return res.status(404).json({ error: 'Lesson not found' });
     }
-    if (req.body.reminders && typeof req.body.reminders === 'object') {
-      // req.body.reminders = Object.values(req.body.reminders);
-    }
+
     console.log(lesson);
     console.log(req.body);
     console.log(req.body.reminders);
@@ -48,9 +46,7 @@ export const deleteHomework = async (req, res) => {
       logger.info('Lesson not found');
       return res.status(404).json({ error: 'Lesson not found' });
     }
-    const homeworkIndex = lesson.homework.findIndex(
-      (homework) => homework.id === parseInt(homeworkId)
-    );
+    const homeworkIndex = lesson.homework.findIndex((homework) => homework.id === parseInt(homeworkId));
     if (homeworkIndex === -1) {
       logger.info('Homework not found');
       return res.status(404).json({ error: 'Homework not found' });
@@ -76,9 +72,7 @@ export const updateHomework = async (req, res) => {
       logger.info('Lesson not found');
       return res.status(404).json({ error: 'Lesson not found' });
     }
-    const homeworkIndex = lesson.homework.findIndex(
-      (homework) => homework.id === parseInt(homeworkId)
-    );
+    const homeworkIndex = lesson.homework.findIndex((homework) => homework.id === parseInt(homeworkId));
     if (homeworkIndex === -1) {
       logger.info('Homework not found');
       return res.status(404).json({ error: 'Homework not found' });
