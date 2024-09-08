@@ -67,6 +67,7 @@ app.use('/teacher/feedback', authenticateToken, authorizeRole('teacher'), teache
 
 app.use('/assistant/users', assistantUserRoutes);
 app.use('/assistant/attendance', attendanceRoutes);
+app.use('' , attendanceRoutes);
 
 // Admin routes
 app.use('/admin/studentRequests', authenticateToken, authorizeRole('admin'), studentRequestRoutes);
