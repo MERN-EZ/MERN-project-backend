@@ -21,6 +21,7 @@ export const loginStudent = async (req, res) => {
     if (student.status !== 'Approved') {
       logger.error(`User ${username} has status: ${student.status}`);
       return res.status(403).json({ message: `Account is ${student.status}` });
+      
     }
 
     const isMatch = await bcrypt.compare(password, student.password);
