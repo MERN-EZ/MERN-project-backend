@@ -1,5 +1,4 @@
 import { getStudentModel } from '../../models/studentModel.js';
-//import { getAttendanceModel } from '../../models/attendanceModel.js';
 import logger from '../../utils/logger.js';
 import bcrypt from 'bcryptjs';
 
@@ -51,17 +50,8 @@ export const registerStudent = async (req, res) => {
 
     await newStudent.save();
 
-    /* const Attendance = getAttendanceModel(req.dbConnection);
-    const newAttendance = new Attendance({
-      studentId: newStudentId,
-      firstName,
-      lastName,
-      attendance: {},
-    });
-    await newAttendance.save(); */
-
-    logger.info(`New student registered: ${username}`);
-    res.status(201).json({ message: 'Student registered successfully!' });
+    logger.info(`New student sent registration request: ${username}`);
+    res.status(201).json({ message: 'Registration request sent successfully!' });
   } catch (error) {
     console.log('Error during student registration:', {
       message: error.message,

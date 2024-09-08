@@ -11,7 +11,7 @@ export const getMessages = async (req, res) => {
     logger.info(`Retrieved ${messages.length} support messages from the database.`);
     res.status(200).json(messages);
   } catch (error) {
-    console.error('Error gettings message:', error); // Log the error to the console
+    console.error('Error gettings message:', error); 
     res.status(500).json({ message: 'Failed to get message. Please try again later.' });
   }
 };
@@ -30,7 +30,7 @@ export const deleteMessage = async (req, res) => {
       res.status(404).json({ message: 'Message not found.' });
     }
   } catch (error) {
-    console.error('Error deleting message:', error); // Log the error to the console
+    console.error('Error deleting message:', error); 
     res.status(500).json({ message: 'Failed to delete message. Please try again later.' });
   }
 };

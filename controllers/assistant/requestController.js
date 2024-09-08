@@ -8,13 +8,11 @@ export const getAllStudentDetails = async (req, res) => {
     const Attendance = getAttendanceModel(req.dbConnection);
     const Student = getStudentModel(req.dbConnection);
 
-    // Fetch student details from the Student collection
     const students = await Student.find(
       {},
       'studentId firstName lastName year'
     );
 
-    // Map student data with their attendance records
     const studentDetails = await Promise.all(
       students.map(async (student) => {
         const attendanceRecord = await Attendance.findOne({

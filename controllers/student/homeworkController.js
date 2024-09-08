@@ -1,6 +1,5 @@
 import { getLessonModel } from '../../models/lessonModel.js';
 import logger from '../../utils/logger.js';
-// import mongoose from 'mongoose';
 
 export const getHomeWorks = async (req, res) => {
   logger.info('Getting all homework');
@@ -8,7 +7,6 @@ export const getHomeWorks = async (req, res) => {
   try {
     const Lesson = getLessonModel(req.dbConnection);
 
-    // Aggregate to find all homework items with their associated lesson details
     const result = await Lesson.aggregate([
       { $unwind: '$homework' },
       {
@@ -36,7 +34,6 @@ export const getHomeWorks = async (req, res) => {
       return res.json({ message: 'No homework found' });
     }
 
-    // Send the aggregated homework data
     res.json(result);
   } catch (error) {
     console.error('Error fetching homework:', error);
@@ -51,7 +48,6 @@ export const getHomeworkById = async (req, res) => {
   try {
     const Lesson = getLessonModel(req.dbConnection);
 
-    // Use aggregation to find the homework and its lesson in one query
     const result = await Lesson.aggregate([
       {
         $project: {
@@ -72,7 +68,6 @@ export const getHomeworkById = async (req, res) => {
       return res.status(404).send('Homework not found');
     }
 
-    // Return the lesson and homework details
     const lesson = result[0];
     const homework = lesson.homework;
 
@@ -115,16 +110,13 @@ export const addSubmission = async (req, res) => {
       return res.status(404).json({ error: 'Homework not found' });
     }
 
-    // Initialize submissions array if it doesn't exist
     if (!homework.submissions) {
       homework.submissions = [];
     }
 
-    // Add the new submission to the homework's submissions array
     homework.submissions.push(req.body);
     console.log(req.body);
 
-    // Save the updated lesson
     await lesson.save();
 
     res.status(200).json({ message: 'Submission added successfully', lesson });
@@ -133,7 +125,6 @@ export const addSubmission = async (req, res) => {
   }
 };
 
-// Update an existing homework submission
 export const updateSubmission = async (req, res) => {
   const { homeworkId, studentId } = req.params;
   const { submissionText, lessonId } = req.body;
@@ -141,7 +132,6 @@ export const updateSubmission = async (req, res) => {
 
   try {
     const Lesson = getLessonModel(req.dbConnection);
-    // Fetch the lesson from the database
     const lesson = await Lesson.findOne({ _id: lessonId });
     console.log('Lesson:', lesson);
     if (!lesson) {
@@ -149,18 +139,16 @@ export const updateSubmission = async (req, res) => {
       return res.status(404).json({ error: 'Lesson not found' });
     }
 
-    // Find the specific homework
     console.log('Homework ID:', homeworkId);
     const homework = lesson.homework.find((hw) => {
       return hw._id.toString() === homeworkId;
-    }); // Note: Ensure homeworkId and hw.id are compared correctly
+    }); 
     console.log('Homework:', homework);
     if (!homework) {
       console.log('Homework not found');
       return res.status(404).json({ error: 'Homework not found' });
     }
 
-    // Find the student's submission
     const submission = homework.submissions.find(
       (sub) => sub.studentId.toString() === studentId
     );
@@ -168,7 +156,7 @@ export const updateSubmission = async (req, res) => {
     if (submission) {
       console.log('Submission found', submission);
       submission.submissionText = submissionText;
-      await lesson.save(); // Save changes to the lesson
+      await lesson.save(); 
       return res.json({
         success: true,
         message: 'Submission updated successfully',

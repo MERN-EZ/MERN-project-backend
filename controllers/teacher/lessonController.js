@@ -3,7 +3,6 @@ import logger from '../../utils/logger.js';
 
 export const createLesson = async (req, res) => {
   logger.info('Creating a new lesson');
-  // logger.info(req.body);
   try {
     const Lesson = getLessonModel(req.dbConnection);
     const lesson = new Lesson(req.body);
@@ -55,7 +54,6 @@ export const getAllLessons = async (req, res) => {
   }
 };
 
-// Update a lesson by ID
 export const updateLesson = async (req, res) => {
   logger.info('Updating a lesson');
   try {
@@ -79,20 +77,15 @@ export const updateLesson = async (req, res) => {
   }
 };
 
-// Delete a lesson by ID
 export const deleteLesson = async (req, res) => {
   logger.info('Deleting a lesson');
   try {
     const Lesson = getLessonModel(req.dbConnection);
-    // console.log(req.params.id);
-    // console.log(await Lesson.find());
     const deletedLesson = await Lesson.findByIdAndDelete(req.params.id);
     if (!deletedLesson) {
       return res.status(404).json({ error: 'Lesson not found' });
     }
-    // res.status(200).json({ message: "Lesson deleted successfully" });
     const remainingLessons = await Lesson.find();
-    // console.log(remainingLessons);
     res.status(200).json(remainingLessons);
   } catch (err) {
     res.status(500).json({ error: err.message });

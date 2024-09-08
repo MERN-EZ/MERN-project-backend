@@ -32,7 +32,7 @@ app.use(cookieParser());
 app.use(
   cors({
     origin: '*',
-    credentials: true, // Allow credentials (cookies) to be sent/received
+    credentials: true, 
     methods: 'GET,POST,PUT,DELETE,OPTIONS',
     allowedHeaders: 'Origin,X-Requested-With,Content-Type,Accept,db-name,Authorization',
   })
@@ -57,8 +57,6 @@ app.use('/student/class', authenticateToken, authorizeRole('student'), studentHo
 app.use('/student/studentSupportPage', authenticateToken, authorizeRole('student'), supportRoutes);
 app.use('/student', authenticateToken, authorizeRole('student'), studentRoutes);
 
-//app.use('/student/users', studentRoutes);
-
 app.use('/teacher/lessons', authenticateToken, authorizeRole('teacher'), teacherLessonRoutes);
 app.use('/teacher/homework', authenticateToken, authorizeRole('teacher'), teacherHomeworkRoutes);
 app.use('/teacher/class', authenticateToken, authorizeRole('teacher'), teacherClassRoutes);
@@ -68,16 +66,13 @@ app.use('/teacher/feedback', authenticateToken, authorizeRole('teacher'), teache
 app.use('/assistant/users', assistantUserRoutes);
 app.use('/assistant/attendance', attendanceRoutes);
 
-// Admin routes
 app.use('/admin/studentRequests', authenticateToken, authorizeRole('admin'), studentRequestRoutes);
 app.use('/admin/assistants', authenticateToken, authorizeRole('admin'), adminAssistantRoutes);
 
-// Error handling middleware for 404 errors
 app.use((req, res, next) => {
   res.status(404).send('Page Not Found');
 });
 
-// General error-handling middleware
 app.use((err, req, res, next) => {
   console.error(err.stack);
   res.status(500).json({ error: 'Something went wrong!' });

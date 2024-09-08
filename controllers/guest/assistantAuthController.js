@@ -24,12 +24,6 @@ export const loginAssistant = async (req, res) => {
       return res.status(401).json({ message: 'Invalid credentials' });
     }
 
-    //const batch = await getBatchInfoForAssistant(assistant.assistantId, dbConnection);
-
-    /* if (year !== assistant.assistantId.split('_')[0]) {
-      return res.status(400).json({ message: 'Incorrect year for this user' });
-    } */
-
     const userDetails = {
       firstName: assistant.firstName,
       lastName: assistant.lastName,
@@ -41,7 +35,6 @@ export const loginAssistant = async (req, res) => {
     };
     logger.info(`User ${username} logged in successfully. UserDetails: ${JSON.stringify(userDetails)}`);
 
-    // Validate user credentials
     const user = { username: assistant.username, role: 'assistant' };
     logger.info(`User ${username} validated`);
     const token = generateToken(user);
