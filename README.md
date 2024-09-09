@@ -6,6 +6,12 @@
     <img src="./assets/logo.png" alt="InfoTech Logo" width="100" height="100"> 
     <h1 style="margin-left: 20px;">InfoTech: Streamline Educational Processes</h1>
   </div>
+  
+  [![Node.js](https://img.shields.io/badge/Node.js-339933?logo=node.js&logoColor=white)](https://nodejs.org/)
+  [![Express](https://img.shields.io/badge/Express-000000?logo=express&logoColor=white)](https://expressjs.com/)
+  [![MongoDB](https://img.shields.io/badge/MongoDB-47A248?logo=mongodb&logoColor=white)](https://www.mongodb.com/)
+  [![Mongoose](https://img.shields.io/badge/Mongoose-880000?logo=mongoose&logoColor=white)](https://mongoosejs.com/)
+
 </div>
 
 ## Project Overview
@@ -40,6 +46,7 @@ It provides endpoints for admins, teachers, students, assistants, and guests, ma
 3. **Edit the `sample.env` file and add your own details**:
 
    Open the `sample.env` file in a text editor and replace the placeholder values with your own details. Rename the file to `.env` once you've added your configurations.
+
    ```env
    # MongoDB URLs for different batches
    MONGODB_URL_2024=mongodb+srv://<username>:<password>@<cluster-address>/<database-name>?retryWrites=true&w=majority&appName=<app-name>
@@ -58,11 +65,12 @@ It provides endpoints for admins, teachers, students, assistants, and guests, ma
 - **Production server**:
   ```sh
   npm start
-   ```
+  ```
 - **Development server with Nodemon** (auto-restart on file changes)
   ```sh
   npm run dev
   ```
+
 ## API Endpoints
 
 ### Guest Routes
@@ -80,10 +88,10 @@ It provides endpoints for admins, teachers, students, assistants, and guests, ma
 
 ### Teacher Routes
 
-1. /teacher/lessons: Manages lesson creation, reading, updating, and deletion 
-2. /teacher/homework: Allows teachers to create, update, delete, and retrieve homework assignments 
-3. /teacher/class: Retrieves class details for teachers 
-4. /teacher/submissions: Enables teachers to view homework submissions from students 
+1. /teacher/lessons: Manages lesson creation, reading, updating, and deletion
+2. /teacher/homework: Allows teachers to create, update, delete, and retrieve homework assignments
+3. /teacher/class: Retrieves class details for teachers
+4. /teacher/submissions: Enables teachers to view homework submissions from students
 5. /teacher/feedback: Allows teachers to view and delete feedback on lessons
 
 ### Assistant Routes
@@ -120,9 +128,9 @@ Defines the structure of the Roles in MongoDB.
 2. Attendance
 3. Class
 4. Lesson
-4. Student
-5. SupportMessage
-1. User
+5. Student
+6. SupportMessage
+7. User
 
 ## Authentication
 
@@ -131,5 +139,3 @@ Authentication is managed using JWT tokens. The authenticateToken middleware ver
 ## End Notes
 
 The InfoTech backend is the backbone of the educational platform, ensuring secure and efficient management of user data, role-based access control, and seamless integration with MongoDB databases. With clear API endpoints and middleware for authentication and authorization, the backend is designed to handle the complex needs of an educational environment.
-
-
